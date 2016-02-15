@@ -11,6 +11,8 @@ import codecs
 import unicodedata
 import random
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 
 def getdico(liste):
@@ -30,15 +32,20 @@ def getdico(liste):
 def entropie(l):
     s = 0
     for i in l :
-        s = s + (i * math.log(i,2))
+        s = s + (i * math.log(i,2))                                                  
     s = s *(-1)
     return s
     
     
     
 def divergence(p,q):  #plus les deux listes sont "éloignées" plus l'entropie est grande
-    s=0    
-    for i in range(len(p)):
+    s=0
+    index=0
+    if len(p)<=len (q):
+        index=len(p)
+    else:
+        index=len(q)    
+    for i in range(index):
         s = s + p[i]*math.log(float(p[i])/q[i],2)
     return s
 
@@ -109,18 +116,41 @@ def DicoToList(dico):
     for elem in dico:
         liste.append(dico[elem])
     return liste
+
+def trace_graphe():
+    d = {}   
+    for i in np.arange(0.01,0.99,0.01):
+        d[i] = entropie([i,1.0-i])
+    plt.plot([str(x) for x in d.keys()], [str(y) for y in d.values()],"+")
+    plt.xlabel('proba p')
+    plt.ylabel('entropie')
+#trace_graphe()    
     
 #########################################bayesienne#########################################
-    
+# on suppose qu'on prend que 3 langues 
     
 #################test###################
 
 liste =[0.05,0.7,0.15,0.1]
 liste2 = [0.95,0.01,0.01,0.03]
-compte1=count_ngrams("bouleDeSuif.txt",3)
-compte = count_ngrams("arseneLupin.txt",3)
-compte2=count_ngrams("montecristo.txt",3)
 
+#francais
+compte1=count_ngrams("bouleDeSuif.txt",2)
+compte = count_ngrams("arseneLupin.txt",2)
+compte2=count_ngrams("montecristo.txt",2)
+#print(compte1)
+
+#allemand
+compted=count_ngrams("kleine.txt",2)
+compteb = count_ngrams("faust.txt",2)
+#print(compted)
+
+#anglais 
+comptec=count_ngrams("moby.txt",2)
+comptea=count_ngrams("warandpeace.txt",2)
+#print(comptec)
+
+#francais
 dico = getdico(compte.items())
 listeproba = DicoToList(dico)
 
@@ -129,6 +159,29 @@ listeproba1 = DicoToList(dico1)
 
 dico2 = getdico(compte2.items())
 listeproba2 = DicoToList(dico2)
+
+print(entropie(listeproba))
+print(entropie(listeproba1))
+print(entropie(listeproba2))
+
+#allemand
+dico3 = getdico(compted.items())
+listeproba3 = DicoToList(dico3)
+print(entropie(listeproba3))
+
+#anglais
+dico4 = getdico(comptea.items())
+listeproba4 = DicoToList(dico4)
+print(entropie(listeproba4))
+
+print("2 textes pareils "+ str(divergence(listeproba,listeproba)))
+print("2 textes de la meme langue "+ str(divergence(listeproba,listeproba1)))
+print("2 textes de langue différente francais/allemand "+ str(divergence(listeproba,listeproba3)))
+print("2 textes de langue différente francais/anglais "+ str(divergence(listeproba,listeproba4)))
+print("2 textes de langue différente anglais/allemand "+ str(divergence(listeproba4,listeproba3)))
+
+
+
 #for elem in dico.keys():
 #    L.append(dico[elem])
 
@@ -139,7 +192,6 @@ listeproba2 = DicoToList(dico2)
 #print(compte)
 #print(dico)
 #print(listeproba)
-print(entropie(listeproba))
-print(entropie(listeproba1))
-print(entropie(listeproba2))
-#    
+
+
+
