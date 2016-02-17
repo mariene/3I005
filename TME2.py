@@ -12,7 +12,8 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-
+#faire classificateur de langue 
+#faire plot aussi
 
 def getdico(liste):
     #Supposons que liste est la liste obtenue de l'appel de fonction count_ngrams
@@ -40,6 +41,7 @@ def entropie(l):
 def divergence(p,q):  #plus les deux listes sont "éloignées" plus l'entropie est grande
     s=0
     if len(p)<=len (q):
+        print(p,q)
         for i in range(len(p)):
             s = s + p[i]*math.log(float(p[i])/q[i],2)
     else:  
@@ -127,7 +129,8 @@ def trace_graphe():
 # en cours / pb 
  # affiche courbe, pour un texte : entropie en fonction de n
 def trace_histo(texte):
-    d = {}
+    d = {} 
+    #plt.savefig permet de souvegarder 
     for n in range(2):
         compte = count_ngrams_bis(texte,n)
         liste_proba = DicoToList(getdico(compte.items()))
@@ -147,52 +150,52 @@ def trace_histo(texte):
 #liste =[0.05,0.7,0.15,0.1]
 #liste2 = [0.95,0.01,0.01,0.03]
 #
-##francais
-#compte1=count_ngrams("bouleDeSuif.txt",2)
-#compte = count_ngrams("arseneLupin.txt",2)
-#compte2=count_ngrams("montecristo.txt",2)
-##print(compte1)
-#
-##allemand
-#compted=count_ngrams("kleine.txt",2)
-#compteb = count_ngrams("faust.txt",2)
-##print(compted)
-#
-##anglais 
-#comptec=count_ngrams("moby.txt",2)
-#comptea=count_ngrams("warandpeace.txt",2)
-##print(comptec)
-#
-##francais
-#dico = getdico(compte.items())
-#listeproba = DicoToList(dico)
-#
-#dico1 = getdico(compte1.items())
-#listeproba1 = DicoToList(dico1)
-#
-#dico2 = getdico(compte2.items())
-#listeproba2 = DicoToList(dico2)
-#
-#print(entropie(listeproba))
-#print(entropie(listeproba1))
-#print(entropie(listeproba2))
-#
-##allemand
-#dico3 = getdico(compted.items())
-#listeproba3 = DicoToList(dico3)
-#print(entropie(listeproba3))
-#
-##anglais
-#dico4 = getdico(comptea.items())
-#listeproba4 = DicoToList(dico4)
-#print(entropie(listeproba4))
-#
-#print("2 textes pareils "+ str(divergence(listeproba,listeproba)))
-#print("2 textes de la meme langue "+ str(divergence(listeproba,listeproba1)))
-#print("2 textes de langue différente francais/allemand "+ str(divergence(listeproba,listeproba3)))
-#print("2 textes de langue différente francais/anglais "+ str(divergence(listeproba,listeproba4)))
-#print("2 textes de langue différente anglais/allemand "+ str(divergence(listeproba4,listeproba3)))
-#
+#francais
+compte1=count_ngrams("bouleDeSuif.txt",1)
+compte = count_ngrams("arseneLupin.txt",1)
+compte2=count_ngrams("montecristo.txt",1)
+#print(compte1)
+
+#allemand
+compted=count_ngrams("kleine.txt",1)
+compteb = count_ngrams("faust.txt",1)
+#print(compted)
+
+#anglais 
+comptec=count_ngrams("moby.txt",1)
+comptea=count_ngrams("warandpeace.txt",1)
+#print(comptec)
+
+#francais
+dico = getdico(compte.items())
+listeproba = DicoToList(dico)
+
+dico1 = getdico(compte1.items())
+listeproba1 = DicoToList(dico1)
+
+dico2 = getdico(compte2.items())
+listeproba2 = DicoToList(dico2)
+
+print(entropie(listeproba))
+print(entropie(listeproba1))
+print(entropie(listeproba2))
+
+#allemand
+dico3 = getdico(compted.items())
+listeproba3 = DicoToList(dico3)
+print(entropie(listeproba3))
+
+#anglais
+dico4 = getdico(comptea.items())
+listeproba4 = DicoToList(dico4)
+print(entropie(listeproba4))
+
+print("2 textes pareils "+ str(divergence(listeproba,listeproba)))
+print("2 textes de la meme langue "+ str(divergence(listeproba,listeproba1)))
+print("2 textes de langue différente francais/allemand "+ str(divergence(listeproba,listeproba3)))
+print("2 textes de langue différente francais/anglais "+ str(divergence(listeproba,listeproba4)))
+print("2 textes de langue différente anglais/allemand "+ str(divergence(listeproba4,listeproba3)))
+print("2 textes de langue différente allemand/anglais "+ str(divergence(listeproba3,listeproba4)))
 
 
 #for elem in dico.keys():

@@ -11,7 +11,7 @@ import TME2 as tme
 
 
 def cmpval(x,y):
-    if x[1]<y[1]:
+    if x[1]>y[1]:
         return -1
     elif x[1]==y[1]:
         return 0
@@ -34,7 +34,7 @@ def liste_couples(d):
 #print(liste_couples(tme.count_ngrams("moby.txt",1)))
 liste = liste_couples(tme.count_ngrams("test.txt",1))
 liste.sort(cmpval)
-print(liste)
+#print(liste)
 
 #liste =[(('a', 78959), ('c', 23122)),  ('q', 1567), (('v', 8721), ('y', 17209)), ('z', 636)]
 #print(liste[0][1][1])
