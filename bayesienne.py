@@ -36,4 +36,4 @@ moy =moyenne_texte(probas)
 
 l=huff.liste_couples(moy)
 l.sort(huff.cmpval)
-print(l)
+#print(l)
