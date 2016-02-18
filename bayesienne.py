@@ -4,22 +4,19 @@ Created on Wed Feb 17 16:35:42 2016
 
 @author: 3202002
 """
+from TME2 import *
+from huffman_bis import *
 
-import TME2 as tme
-import huffman_bis as huff
 # on suppose que la liste de texte est de meme langue 
 def proba_textes(liste):
     d = {}
     for i in range (len(liste)):
-        compte = tme.count_ngrams(liste[i],1)
-        liste_proba = tme.getdico(compte.items())
+        compte = count_ngrams(liste[i],1)
+        liste_proba = getdico(compte.items())
         d[i]=liste_proba
-    return d
+        return d
 
-liste =["bouleDeSuif.txt","arseneLupin.txt","montecristo.txt"]
-probas = proba_textes(liste)
-#print(proba_textes(liste))
-
+# probabilité des lettres par rapport a une lettre            
 def moyenne_texte(dico):
     d = {}
     for dico in dico.values():
@@ -31,9 +28,4 @@ def moyenne_texte(dico):
     for elem in d:
         d[elem] = d[elem]/3
     return d
-        
-moy =moyenne_texte(probas)
 
-l=huff.liste_couples(moy)
-l.sort(huff.cmpval)
-#print(l)

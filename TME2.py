@@ -144,7 +144,7 @@ def trace_histo(texte):
     plt.xlabel('n')
     plt.ylabel('entropie')
     
-trace_histo("bouleDeSuif.txt")       
+#trace_histo("bouleDeSuif.txt")       
 
 #########################################bayesienne#########################################
 # on suppose qu'on prend que 3 langues 
