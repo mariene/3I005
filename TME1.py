@@ -16,7 +16,7 @@ def moyenne(l):
     return s
 
 liste = [5,5,6,4,4,6,2]
-print(moyenne(liste))
+#print(moyenne(liste))
 
 def histo(l):
     d = dict()
@@ -28,7 +28,7 @@ def histo(l):
         d[i]= cpt
     return d
 
-print(histo(liste))
+#print(histo(liste))
 
 
 def histo_trie(l):
@@ -42,8 +42,8 @@ def histo_trie(l):
         liste.append(couple)
     return liste
    
-print(histo_trie(liste))
-plt.hist(liste)
+#print(histo_trie(liste))
+#plt.hist(liste)
 
 # Exercice 2
 
@@ -67,11 +67,11 @@ def meme_position(p,q):
     return indice
 
 
-a = paquet()
-b = paquet()
+#a = paquet()
+#b = paquet()
 #print(a)
 #print(b)
-print (meme_position(a,b))
+#print (meme_position(a,b))
 
 #plt.plot(liste_x,liste_y)
 #plt.show()            
@@ -109,8 +109,8 @@ def proba_somme(k,n):
     sorted(d)
     return d
     
-print (proba_somme(2,10))  
-print (proba_somme_bis(2,10))
+#print (proba_somme(2,10))  
+#print (proba_somme_bis(2,10))
     
 def roulette(dist): #ou dist est un dico {(evnt,proba)}
     val = random.random() #valeur entre 0 et 1
@@ -123,6 +123,6 @@ def roulette(dist): #ou dist est un dico {(evnt,proba)}
     print('on a eu un prb pour le rand() verification a faire..')
 
 dist=dict([('P',0.7),('F',0.3)])
-print(roulette(dist))
+#print(roulette(dist))
 d = dict([(1,0.2),(2,0.1),(3,0.3),(4,0.25),(5,0.15),(6,0.1)])
-print(roulette(d))
+#print(roulette(d))
