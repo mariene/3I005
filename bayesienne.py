@@ -35,31 +35,63 @@ def moyenne_texte(dico):
     return d
 
 
-def somme_log(mot,liste):
+def pwl(mot,liste):
     p = 0.0
     for i in mot:
         for j in range (len(liste)):
-            #print liste[j][0]
             if i == liste[j][0]:
                 p = p + math.log(liste[j][1])
     return p
 
 
-def plw (mot):
+def plw_mot (mot):
     francais = liste_couples(moyenne_texte(proba_textes(["bouleDeSuif.txt","arseneLupin.txt","montecristo.txt"])))
     anglais = liste_couples(moyenne_texte(proba_textes(["warandpeace.txt","moby.txt","astro.txt"])))
     allemand = liste_couples(moyenne_texte(proba_textes(["faust.txt","kleine.txt","Iphiginie.txt"])))
-    fr = (somme_log(mot,francais)*(1.0/3))
-    print('\n')
-    ang = (somme_log(mot,anglais)*(1.0/3))
-    ger = (somme_log(mot,allemand)*(1.0/3))
+    fr = (pwl(mot,francais)*(1.0/3))
+    ang = (pwl(mot,anglais)*(1.0/3))
+    ger = (pwl(mot,allemand)*(1.0/3))
     if ((ger > ang) and (ger > fr)) :
-        print ("allemand")
+        #print ("allemand")
+        return 2
     if ((ang > fr) and (ang > ger)) :
-        print("anglais")
+        #print("anglais")
+        return 1
     if ((fr > ger) and (fr > ang)) :
-        print ("francais")
- 
-plw("really")
-    
+        #print ("francais")
+        return 0
 
+# prend trop de temps quand c'est un long texte  
+def plw_texte(text):
+    #texte    
+    contenu = ""
+    punc = set(string.punctuation)
+    with codecs.open(text,encoding="utf-8") as f:
+       for char in f.read():#lecture fichier + copie dans contenu
+           contenu += char.lower()
+    contenu=unicodedata.normalize("NFKD",contenu).encode("ascii","ignore")
+    contenu = "".join([c for c in contenu if c not in punc])
+    liste = []   
+    ger = 0
+    ang = 0
+    fr = 0
+    for char in contenu:
+        if ((char <> ' ') and (char <> "\n") and (char <> "\r")) :
+            liste.append(char)
+        else :
+            l = plw_mot(liste)            
+            if l == 0 :
+                fr = fr + 1
+            if l == 2:
+                ger = ger +1
+            if l == 1:
+                ang = ang +1 
+            liste=[]
+        
+    f.close()
+    
+plw_texte("texte.txt")
+
+
+    
+    
