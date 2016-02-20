@@ -9,6 +9,7 @@ from huffman_bis import *
 from Entropie import *
 import string
 from TME2 import *
+import math
 
 # on suppose que la liste de texte est de meme langue 
 # probabilité pour chaque caractère
@@ -33,52 +34,32 @@ def moyenne_texte(dico):
         d[elem] = d[elem]/3
     return d
 
-def comparaison (texte):
+
+def somme_log(mot,liste):
+    p = 0.0
+    for i in mot:
+        for j in range (len(liste)):
+            #print liste[j][0]
+            if i == liste[j][0]:
+                p = p + math.log(liste[j][1])
+    return p
+
+
+def plw (mot):
     francais = liste_couples(moyenne_texte(proba_textes(["bouleDeSuif.txt","arseneLupin.txt","montecristo.txt"])))
     anglais = liste_couples(moyenne_texte(proba_textes(["warandpeace.txt","moby.txt","astro.txt"])))
     allemand = liste_couples(moyenne_texte(proba_textes(["faust.txt","kleine.txt","Iphiginie.txt"])))
-    texte = liste_couples(DicoToDicoProba(count_ngrams(texte,1)))
-    ger = 0
-    ang = 0
-    fr = 0
-    alpha = []
-    for j in range (len(francais)) :
-        alpha.append(francais[j][0])
-    print alpha
-    i = 0    
-    for i in range (26):
-        print(abs(francais[i][1]-texte[i][1]))
-        print(abs(anglais[i][1]-texte[i][1]))
-        print(abs(allemand[i][1]- texte[i][1]))
-        if alpha[i] == texte[i][0]:
-            if abs(francais[i][1]-texte[i][1])> abs(anglais[i][1]-texte[i][1]):
-                if abs(allemand[i][1]-texte[i][1])< abs(anglais[i][1]-texte[i][1]):
-                    ger = ger + 1
-                else :
-                    ang = ang + 1
-            else:
-                if abs(allemand[i][1]-texte[i][1])> abs(francais[i][1]-texte[i][1]):
-                    fr = fr + 1
-                else : 
-                    ger = ger + 1
-    print (fr)
-    print (ger)
-    print(ang)       
-    
+    fr = (somme_log(mot,francais)*(1.0/3))
+    print('\n')
+    ang = (somme_log(mot,anglais)*(1.0/3))
+    ger = (somme_log(mot,allemand)*(1.0/3))
     if ((ger > ang) and (ger > fr)) :
         print ("allemand")
     if ((ang > fr) and (ang > ger)) :
         print("anglais")
     if ((fr > ger) and (fr > ang)) :
         print ("francais")
-
-#comparaison("moby.txt")
-l = liste_couples(DicoToDicoProba(count_ngrams("texte.txt",1)))  
-#print (len(l))          
-    
-
-
-     
-    
+ 
+plw("really")
     
 
