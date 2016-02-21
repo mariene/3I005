@@ -5,7 +5,7 @@ Created on Tue Feb 16 23:06:07 2016
 @author: Mariène
 """
 import TME2 as tme
-
+from heapq import *
 #codage(liste) qui prend une liste de couples (wi, pi) 
 #(la lettre et sa probabilit´e d’apparition) et renvoie l’arbre de codage optimal
 
@@ -30,30 +30,30 @@ def liste_couples(d):
         couple = (cle[i],val[i])
         liste.append(couple)
     return liste
-   
+
+def changer(liste):
+    liste2=[]
+    for i in range (len(liste)):
+        liste2.append((liste[i][1],liste[i][0]))
+    return liste2
+    
 #print(liste_couples(tme.count_ngrams("moby.txt",1)))
 liste = liste_couples(tme.count_ngrams("test.txt",1))
-liste.sort(cmpval)
-#print(liste)
+#liste.sort(cmpval)
+#print(changer(liste))
 
-#liste =[(('a', 78959), ('c', 23122)),  ('q', 1567), (('v', 8721), ('y', 17209)), ('z', 636)]
-#print(liste[0][1][1])
-# liste [0] -> (('a', 78959), ('c', 23122))
-#liste [0][1] -> ('c', 23122)
-# liste [0][1][1] -> 23122
+#return l'arbre sous forme [(poids, {dictionnaire -> arbre de codage})]
+def arbre (liste):
+    liste = changer(liste)
+    liste.sort(cmpval)
+    while len(liste) >= 2: 
+        occ1, noeud1 = heappop(liste) #heapop(liste) renvoie un couple 
+        occ2, noeud2 = heappop(liste)
+        #ordonne la liste en arbre binaire 
+        # heappush(liste dans lequel on rajoute un truc, le truc a rajouter)
+        # et heappush ordonne en ordre croissant 
+        heappush(liste,(occ1+occ2,{0: noeud1, 1:noeud2}))    
+    return liste
 
-#
-#def petit_arbre(couple1, couple2):
-#    couple = (couple1, couple2)
-#    return couple
-#
-##print petit_arbre(('a',2),('c',3))
-# 
-#def arbre (liste):
-#    arbre = []
-#    sous_arbre_gauche =[]
-#    sous_arbre_droit = []
-#    for i in liste : 
-
-        
+print(arbre(liste))   
         
