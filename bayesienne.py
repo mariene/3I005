@@ -90,7 +90,10 @@ def plw_texte(text):
         
     f.close()
     
-plw_texte("texte.txt")
+#plw_texte("texte.txt")
+
+
+
 
 
     
