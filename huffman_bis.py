@@ -38,7 +38,7 @@ def changer(liste):
     return liste2
     
 #print(liste_couples(tme.count_ngrams("moby.txt",1)))
-liste = liste_couples(tme.count_ngrams("test.txt",1))
+liste = liste_couples(tme.count_ngrams("moby.txt",1))
 #liste.sort(cmpval)
 #print(changer(liste))
 
@@ -55,5 +55,7 @@ def arbre (liste):
         heappush(liste,(occ1+occ2,{0: noeud1, 1:noeud2}))    
     return liste
 
-print(arbre(liste))   
+#print(arbre(liste))
+
+   
         

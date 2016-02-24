@@ -10,8 +10,10 @@ from Entropie import *
 
 
 liste = ["bouleDeSuif.txt","arseneLupin.txt","montecristo.txt"]     
+francais = liste_couples(moyenne_texte(proba_textes(["bouleDeSuif.txt","arseneLupin.txt","montecristo.txt"])))
 probas = proba_textes(liste)
 #print(proba_textes(liste))
 moy = moyenne_texte(probas)
-plw("really")
+
+print(francais)
 
