@@ -21,7 +21,7 @@ def cmpval(x,y):
 #print(dico)    
 
 def liste_couples(d):
-    #d = tme.count_ngrams("moby.txt",1)
+    #d = tme.count_ngrams("moby.txt",n)
     liste = list()
     cle = d.keys()
     val = d.values()
@@ -31,6 +31,17 @@ def liste_couples(d):
         liste.append(couple)
     return liste
 
+def liste_couple_nb(d):
+    liste = list()
+    cle = d.keys()
+    val = d.values()
+    nb = len(d)
+    for i in range (nb) :
+        couple = (cle[i],val[i])
+        liste.append(couple)
+    return liste
+    
+    
 def changer(liste):
     liste2=[]
     for i in range (len(liste)):
