@@ -143,7 +143,7 @@ def plw_texte(text):
         print ("francais")
         #return 0
 
-plw_texte("texte.txt")   
+#plw_texte("texte.txt")   
  
 def Amelioree(texte):  
     contenu = ""
