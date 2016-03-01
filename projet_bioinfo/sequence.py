@@ -27,21 +27,21 @@ def lire_texte():
     return liste
 
 matrice = lire_texte()
-print(matrice)
+#print(matrice)
 
 # probleme nombre d'occurence incohérent 
 def comparaison(liste):
     d =[]
     dico ={}
-    for i in range (2): 
+    for i in range (48): 
         dico = alpha.copy()     
         for j in range (0,len(liste)):
-            print liste[j][i]
             for char in alpha.keys():
                 if (liste[j][i] == char):
                    dico[char]= dico[char] + 1
         d.append(dico)
-    print d
+    #print d
+    return d
    
 ##print matrice[1][3]
 comparaison(matrice)
