@@ -28,7 +28,7 @@ def lire_texte():
     return liste
 
 matrice = lire_texte()
-print len(matrice)
+#print len(matrice)
 
 #print matrice 
 # probleme nombre d'occurence incohérent 
@@ -46,12 +46,12 @@ def comparaison(liste):
     return d
    
 c = comparaison(matrice)
-print c
-def w (n):
+#print c
+def calPoids (n):
     w = n / (5643.0 + 21.0) # M = nb ligne sans commentaire et q = taille de l'alphabet 
     return w
     
-print w(c[47]['V'])
+#print calPoids(c[47]['V'])
 
 def weight(liste):
     poids = {}
@@ -60,14 +60,14 @@ def weight(liste):
         poids = {}
         for l in liste[i].keys():
             #print l
-            a = w(liste[i][l])
+            a = calPoids(liste[i][l])
             poids.update({l:a})
         l2.append(poids)
     return l2
 
 we = weight(c)
 
-print we
+#print we
 
 def e_relative(p): # on calcule ici l'entropie relative d'une distribution d'une seule colonne
     somme = log(21,2)
@@ -86,3 +86,18 @@ def e_touteColonne(liste):
 liste_entropie = e_touteColonne(we)
 print(liste_entropie) 
 print(liste_entropie.index(max(liste_entropie)))
+
+
+
+#@param liste est une liste de dico contenant les poids de chaque acide amine
+def liste_argmax(liste): 
+    liste_max = []
+    for i in range(len(liste)):
+        indice_max = liste[i].values().index(max(liste[i].values()))
+        lettre_max = liste[i].keys()[indice_max]
+        #on stocke les lettres dominantes de chaque colonne dans la liste_max
+        liste_max.append(lettre_max)
+    return liste_max
+print we[1]
+liste = liste_argmax(we)
+print len(liste)
