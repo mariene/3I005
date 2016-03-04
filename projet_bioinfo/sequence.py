@@ -5,6 +5,8 @@ Created on Wed Feb 24 16:09:31 2016
 @author:   3202002
 """
 from math import *
+import numpy as np
+import matplotlib.pyplot as plt
 
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
@@ -84,8 +86,8 @@ def e_touteColonne(liste):
     return liste_entropie # et les valeurs d'entropies sont stockées dans l'ordre
     
 liste_entropie = e_touteColonne(we)
-print(liste_entropie) 
-print(liste_entropie.index(max(liste_entropie)))
+#print(liste_entropie) 
+#print(liste_entropie.index(max(liste_entropie)))
 
 
 
@@ -98,6 +100,17 @@ def liste_argmax(liste):
         #on stocke les lettres dominantes de chaque colonne dans la liste_max
         liste_max.append(lettre_max)
     return liste_max
-print we[1]
+#print we[1]
 liste = liste_argmax(we)
-print len(liste)
+#print len(liste)
+
+#############################graphe###############################################
+plt.xlabel(u'position i')
+plt.ylabel(u'entropie relative')
+plt.title(u"graphe représentant l'entropie relative en fonction de la position i")
+x=np.arange(48)
+#liste =liste_entropie(e_touteColonne(weight(comparaison(lire_texte()))))
+plt.plot(x,liste_entropie)
+plt.show()
+
+##################################################################################
