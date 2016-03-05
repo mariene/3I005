@@ -8,7 +8,7 @@ from math import *
 import numpy as np
 import matplotlib.pyplot as plt
 import collections
-
+#je suis un commentaire#
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
 #lis le fichier Dtrain et enleve les commentaires
