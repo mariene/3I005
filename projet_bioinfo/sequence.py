@@ -155,7 +155,15 @@ def ss_seq(texte):
         res.append(eq(liste))
     return res
     
-
+#################################Variables globales######################    
+matrice = lire_texte()        
+c = comparaison(matrice)
+we = weight(c)
+liste_entropie = e_touteColonne(we)
+liste = liste_argmax(we)
+liste_poids_moyen =  f0()
+#print eq("PPAAAPQPKEPRYKALYDFAGQSAGELSLGKDEIILVTQKENNGWWLA")    
+#print(ss_seq("test_seq.txt"))
             
 #############################graphe###############################################
 def graphe():
@@ -167,7 +175,7 @@ def graphe():
     plt.show()
 #graphe()
 
-def g_vraissemblance():
+def g_vraisemblance():
     plt.xlabel(u'position i')
     plt.ylabel(u'log de vraisemblance')
     plt.title(u"log de vraisemblance en fonction de sa première position i")
@@ -176,15 +184,17 @@ def g_vraissemblance():
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
     plt.show()
-g_vraissemblance()
+g_vraisemblance()
 ##################################################################################
 
-#################################Variables globales######################    
-matrice = lire_texte()        
-c = comparaison(matrice)
-we = weight(c)
-liste_entropie = e_touteColonne(we)
-liste = liste_argmax(we)
-liste_poids_moyen =  f0()
-#print eq("PPAAAPQPKEPRYKALYDFAGQSAGELSLGKDEIILVTQKENNGWWLA")    
-#print(ss_seq("test_seq.txt"))
+##################################2epartie#######################################
+# nb de seq avec AA a en position i et avec AA b en position j
+#def n(a,b):
+    
+    
+
+def wab(a,b):
+    w = (n(a,b) + (1/21.0))/ (5643.0 + 21.0)
+    return w
+
+
