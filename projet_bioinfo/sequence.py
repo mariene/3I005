@@ -210,16 +210,19 @@ def wab(a,i,b,j):
     return (n(a,i,b,j) + (1/21.0))/ (5643.0 + 21.0)
 
 
-def fonc(a):
-    somme = 0
-    tab_weight = []
-    for i in range(len(count)): #len(c) = 48 car on doit calculer Wi(a) pour chaque colonne
-        for j in range(len(count)):
-            for acide in alpha:
-                if acide!=a:
-                    somme += wab(a,i,acide,j)
-        tab_weight.append(somme)
-        somme=0
-    print tab_weight
-
-fonc("A")
+def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtrain.txt
+    matrice = lire_texte_bis(filename)
+    count = comparaison(matrice)
+#    somme = 0
+    dico_nij = {}
+    dico_wij = {}
+    for acide1 in alpha:
+       for i in range(len(count)-1): #len(c) = 48 car on doit calculer Wi(a) pour chaque colonne
+            for acide2 in alpha:
+                if(acide2!=acide1):
+                    for j in range(i+1,len(count)):
+                        dico_nij[acide1+acide2+str(i)+" "+str(j)] = n(acide1,i,acide2,j)
+                        dico_wij[acide1+acide2+str(i)+" "+str(j)] = (dico_nij[acide1+acide2+str(i)+" "+str(j)]+1/21.0)/ (len(matrice)+21.0)
+    return dico_wij                       
+                        
+print(seconde_fonc())
