@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Feb 24 16:09:31 2016
-
 @author:   3202002
 """
 from math import *
@@ -15,8 +14,8 @@ alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1
 #@return liste avec que les sequences
 def lire_texte():
     #contenu = ""
-    contenu = open("Dtrain.txt", "r")
-    #contenu = open("test_bis.txt", "r")
+    #contenu = open("Dtrain.txt", "r")
+    contenu = open("test_bis.txt", "r")
     #contenu = mon_fichier.read()
 
     ss_liste = ""
@@ -157,11 +156,21 @@ def ss_seq(texte):
     
 #################################Variables globales######################    
 matrice = lire_texte()        
-c = comparaison(matrice)
-we = weight(c)
+#print matrice
+count = comparaison(matrice) #liste de dico qui contient les nb occ de chaque acide amine pour toutes les colonnes(len(count)=48 ici)
+
+we = weight(count)
+#for elem in we:
+#    for key in elem:
+#        if key=='A':
+#            print elem[key]
+
 liste_entropie = e_touteColonne(we)
+#print liste_entropie
 liste = liste_argmax(we)
+#print liste
 liste_poids_moyen =  f0()
+#print liste_poids_moyen
 #print eq("PPAAAPQPKEPRYKALYDFAGQSAGELSLGKDEIILVTQKENNGWWLA")    
 #print(ss_seq("test_seq.txt"))
             
@@ -184,17 +193,33 @@ def g_vraisemblance():
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
     plt.show()
-g_vraisemblance()
-##################################################################################
+#g_vraisemblance()
+################################graphe############################################
 
-##################################2epartie#######################################
+#################################2epartie#######################################
 # nb de seq avec AA a en position i et avec AA b en position j
-#def n(a,b):
-    
-    
+def n(a,i,b,j): # on utilise la variable global matrice
+    nombre_sequence=0
+    for sequence in matrice:
+        if(sequence[i]==a and sequence[j]==b):
+            nombre_sequence += 1
+    return nombre_sequence
 
-def wab(a,b):
-    w = (n(a,b) + (1/21.0))/ (5643.0 + 21.0)
-    return w
+
+def wab(a,i,b,j):
+    return (n(a,i,b,j) + (1/21.0))/ (5643.0 + 21.0)
 
 
+def fonc(a):
+    somme = 0
+    tab_weight = []
+    for i in range(len(count)): #len(c) = 48 car on doit calculer Wi(a) pour chaque colonne
+        for j in range(len(count)):
+            for acide in alpha:
+                if acide!=a:
+                    somme += wab(a,i,acide,j)
+        tab_weight.append(somme)
+        somme=0
+    print tab_weight
+
+fonc("A")
