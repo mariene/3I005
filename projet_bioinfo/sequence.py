@@ -6,7 +6,7 @@ Created on Wed Feb 24 16:09:31 2016
 from math import *
 import numpy as np
 import matplotlib.pyplot as plt
-import collections
+
 
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'R':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
@@ -158,7 +158,8 @@ def ss_seq(texte):
 matrice = lire_texte()        
 #print matrice
 count = comparaison(matrice) #liste de dico qui contient les nb occ de chaque acide amine pour toutes les colonnes(len(count)=48 ici)
-
+#print count
+print count[0]
 we = weight(count)
 #for elem in we:
 #    for key in elem:
@@ -210,6 +211,7 @@ def wab(a,i,b,j):
     return (n(a,i,b,j) + (1/21.0))/ (5643.0 + 21.0)
 
 
+<<<<<<< HEAD
 def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtrain.txt
     matrice = lire_texte_bis(filename)
     count = comparaison(matrice)
@@ -233,3 +235,58 @@ print(seconde_fonc())
 #        for j in range(len(c)):
 #            dico_nij["AV"+str(i)+" "+str(j)]
             
+=======
+def fonc(a):
+    somme = 0
+    tab_weight = []
+    for i in range(len(count)): #len(c) = 48 car on doit calculer Wi(a) pour chaque colonne
+        for j in range(len(count)):
+            for acide in alpha:
+                if acide!=a:
+                    somme += wab(a,i,acide,j)
+        tab_weight.append(somme)
+        somme=0
+    #print tab_weight
+
+fonc("A")
+
+def occ(pos,char):
+    dico = count[pos]
+    for i in dico:
+        if i == char :
+            return dico[i]
+
+#print occ(0,'-')
+def M(i,j):
+    somme = 0
+    resultat =0
+    for acide in alpha:
+        for a in alpha:
+            print acide+a
+            if acide!=a:
+                somme += wab(a,i,acide,j)*log((wab(a,i,acide,j)/(calPoids(occ(i,a)))*calPoids(occ(j,acide))),2)
+            resultat = resultat + somme
+            somme = 0
+    return resultat
+
+print M(0,1)
+            
+            
+def M():
+    somme = 0
+    resultat =0
+    for acide in alpha:
+        for a in alpha:
+            for i in range(len(count)):
+                for j in range(len(count)):
+                    if acide!=a:
+                        somme += wab(a,i,acide,j)*log((wab(a,i,acide,j)/(calPoids(occ(i,a)))*calPoids(occ(j,acide))),2)
+            resultat = resultat + somme
+            somme = 0
+    return resultat
+
+print M()
+                    
+            
+    
+>>>>>>> parallele
