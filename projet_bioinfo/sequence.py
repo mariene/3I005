@@ -221,8 +221,15 @@ def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtr
             for acide2 in alpha:
                 if(acide2!=acide1):
                     for j in range(i+1,len(count)):
-                        dico_nij[acide1+acide2+str(i)+" "+str(j)] = n(acide1,i,acide2,j)
-                        dico_wij[acide1+acide2+str(i)+" "+str(j)] = (dico_nij[acide1+acide2+str(i)+" "+str(j)]+1/21.0)/ (len(matrice)+21.0)
+                        dico_nij[acide1+acide2+" "+str(i)+" "+str(j)] = n(acide1,i,acide2,j)
+                        dico_wij[acide1+acide2+" "+str(i)+" "+str(j)] = (dico_nij[acide1+acide2+" "+str(i)+" "+str(j)]+1/21.0)/ (len(matrice)+21.0)
     return dico_wij                       
                         
 print(seconde_fonc())
+
+#def troisieme_fonction():
+#    dico_nij,dico_wij = seconde_fonc()
+#    for i in range(len(c)):
+#        for j in range(len(c)):
+#            dico_nij["AV"+str(i)+" "+str(j)]
+            
