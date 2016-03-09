@@ -165,7 +165,6 @@ we = weight(count)
 #    for key in elem:
 #        if key=='A':
 #            print elem[key]
-
 liste_entropie = e_touteColonne(we)
 #print liste_entropie
 liste = liste_argmax(we)
@@ -211,7 +210,7 @@ def wab(a,i,b,j):
     return (n(a,i,b,j) + (1/21.0))/ (5643.0 + 21.0)
 
 
-<<<<<<< HEAD
+
 def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtrain.txt
     matrice = lire_texte_bis(filename)
     count = comparaison(matrice)
@@ -235,7 +234,7 @@ print(seconde_fonc())
 #        for j in range(len(c)):
 #            dico_nij["AV"+str(i)+" "+str(j)]
             
-=======
+
 def fonc(a):
     somme = 0
     tab_weight = []
@@ -270,8 +269,7 @@ def M(i,j):
     return resultat
 
 print M(0,1)
-            
-            
+                      
 def M():
     somme = 0
     resultat =0
@@ -285,8 +283,8 @@ def M():
             somme = 0
     return resultat
 
-print M()
+#print M()
                     
             
     
->>>>>>> parallele
+
