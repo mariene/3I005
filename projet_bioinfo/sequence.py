@@ -171,20 +171,22 @@ def graphe():
     plt.ylabel(u'entropie relative')
     plt.title(u"graphe représentant l'entropie relative en fonction de la position i")
     x=np.arange(48)
+    plt.plot(x,liste_entropie)
+    plt.show()
+    
+#graphe()
+
+def g_vraissemblance():
+    plt.xlabel(u'position i')
     plt.ylabel(u'log de vraisemblance')
     plt.title(u"log de vraisemblance en fonction de sa première position i")
     contenu = lire_texte("test_seq.txt")[0]
     x=np.arange(len(contenu)-48)
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
-    plt.plot(x,liste_entropie)
     plt.show()
-#graphe()
+g_vraissemblance()
 
-def g_vraisemblance():
-    plt.xlabel(u'position i')
-    plt.show()
-#g_vraisemblance()
 ################################graphe############################################
 
 #################################2epartie#######################################
