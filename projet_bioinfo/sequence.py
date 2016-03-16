@@ -166,7 +166,7 @@ liste_poids_moyen =  f0()
 #print(ss_seq("test_seq.txt"))
             
 #############################graphe###############################################
-	def graphe():
+def graphe():
     plt.xlabel(u'position i')
     plt.ylabel(u'entropie relative')
     plt.title(u"graphe représentant l'entropie relative en fonction de la position i")
