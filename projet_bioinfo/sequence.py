@@ -14,8 +14,8 @@ alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1
 #@return liste avec que les sequences
 def lire_texte():
     #contenu = ""
-    #contenu = open("Dtrain.txt", "r")
-    contenu = open("test_bis.txt", "r")
+    contenu = open("Dtrain.txt", "r")
+    #contenu = open("test_bis.txt", "r")
     #contenu = mon_fichier.read()
 
     ss_liste = ""
@@ -70,21 +70,21 @@ def comparaison(liste):
 
 # @param n = entier, correspondant au nb occurence de l'acide aminé
 # @return son poids 
-def calPoids (n):
-    w = n / (5643.0 + 21.0) # M = nb ligne sans commentaire et q = taille de l'alphabet 
+def calPoids (M,n):
+    w = n / (M + 21.0) # M = nb ligne sans commentaire et q = taille de l'alphabet 
     return w
     
 
 
 #pour chaque colonne on calcule le poids de chaque acide aminé 
-def weight(liste):
+def weight(M,liste):
     poids = {}
     l2 = []
     for i in range(len(liste)) : 
         poids = {}
         for l in liste[i].keys():
             #print l
-            a = calPoids(liste[i][l])
+            a = calPoids(M,liste[i][l])
             poids.update({l:a})
         l2.append(poids)
     return l2
@@ -141,6 +141,7 @@ def eq(seq):
         if(seq[i] in alpha):
             frac = float(we[i][seq[i]])/liste_poids_moyen[seq[i]]
             res += log(frac,2)
+            
     return res
 
 def ss_seq(texte):
@@ -155,23 +156,32 @@ def ss_seq(texte):
     return res
     
 #################################Variables globales######################    
-matrice = lire_texte()        
+matrice = lire_texte()    
 #print matrice
+
+
 count = comparaison(matrice) #liste de dico qui contient les nb occ de chaque acide amine pour toutes les colonnes(len(count)=48 ici)
 #print count
-print count[0]
-we = weight(count)
-#for elem in we:
-#    for key in elem:
-#        if key=='A':
-#            print elem[key]
+#print count[0]
+
+
+we = weight(len(matrice),count)
+#print we
+
+
 liste_entropie = e_touteColonne(we)
 #print liste_entropie
+
+
 liste = liste_argmax(we)
 #print liste
+
+
 liste_poids_moyen =  f0()
 #print liste_poids_moyen
-#print eq("PPAAAPQPKEPRYKALYDFAGQSAGELSLGKDEIILVTQKENNGWWLA")    
+
+
+#print eq("PPAAAPQPKEPRYKALYDFAGQSAGELSLGKDEIILVTQKENNGWWLA")
 #print(ss_seq("test_seq.txt"))
             
 #############################graphe###############################################
@@ -180,25 +190,25 @@ def graphe():
     plt.ylabel(u'entropie relative')
     plt.title(u"graphe représentant l'entropie relative en fonction de la position i")
     x=np.arange(48)
-    plt.plot(x,liste_entropie)
-    plt.show()
-#graphe()
-
-def g_vraisemblance():
-    plt.xlabel(u'position i')
     plt.ylabel(u'log de vraisemblance')
     plt.title(u"log de vraisemblance en fonction de sa première position i")
     contenu = lire_texte_bis("test_seq.txt")[0]
     x=np.arange(len(contenu)-48)
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
+    plt.plot(x,liste_entropie)
+    plt.show()
+#graphe()
+
+def g_vraisemblance():
+    plt.xlabel(u'position i')
     plt.show()
 #g_vraisemblance()
 ################################graphe############################################
 
 #################################2epartie#######################################
 # nb de seq avec AA a en position i et avec AA b en position j
-def n(a,i,b,j): # on utilise la variable global matrice
+def n(a,i,b,j,matrice): # on utilise la variable global matrice
     nombre_sequence=0
     for sequence in matrice:
         if(sequence[i]==a and sequence[j]==b):
@@ -206,8 +216,8 @@ def n(a,i,b,j): # on utilise la variable global matrice
     return nombre_sequence
 
 
-def wab(a,i,b,j):
-    return (n(a,i,b,j) + (1/21.0))/ (5643.0 + 21.0)
+def wab(a,i,b,j,matrice):
+    return (n(a,i,b,j,matrice) + (1/21.0))/ (len(matrice) + 21.0)
 
 
 
@@ -222,32 +232,12 @@ def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtr
             for acide2 in alpha:
                 if(acide2!=acide1):
                     for j in range(i+1,len(count)):
-                        dico_nij[acide1+acide2+" "+str(i)+" "+str(j)] = n(acide1,i,acide2,j)
+                        dico_nij[acide1+acide2+" "+str(i)+" "+str(j)] = n(acide1,i,acide2,j,matrice)
                         dico_wij[acide1+acide2+" "+str(i)+" "+str(j)] = (dico_nij[acide1+acide2+" "+str(i)+" "+str(j)]+1/21.0)/ (len(matrice)+21.0)
-    return dico_wij                       
                         
-print(seconde_fonc())
+    return dico_nij,dico_wij
+                        
 
-#def troisieme_fonction():
-#    dico_nij,dico_wij = seconde_fonc()
-#    for i in range(len(c)):
-#        for j in range(len(c)):
-#            dico_nij["AV"+str(i)+" "+str(j)]
-            
-
-def fonc(a):
-    somme = 0
-    tab_weight = []
-    for i in range(len(count)): #len(c) = 48 car on doit calculer Wi(a) pour chaque colonne
-        for j in range(len(count)):
-            for acide in alpha:
-                if acide!=a:
-                    somme += wab(a,i,acide,j)
-        tab_weight.append(somme)
-        somme=0
-    #print tab_weight
-
-fonc("A")
 
 def occ(pos,char):
     dico = count[pos]
@@ -255,36 +245,45 @@ def occ(pos,char):
         if i == char :
             return dico[i]
 
-#print occ(0,'-')
+
+#print seconde_fonc("test_bis.txt")
+
+
 def M(i,j):
     somme = 0
     resultat =0
+    
     for acide in alpha:
         for a in alpha:
-            print acide+a
             if acide!=a:
                 somme += wab(a,i,acide,j)*log((wab(a,i,acide,j)/(calPoids(occ(i,a)))*calPoids(occ(j,acide))),2)
             resultat = resultat + somme
             somme = 0
+            
     return resultat
 
-print M(0,1)
+#print M(0,1)
                       
-def M():
+def Troisieme_fonction(filename="Dtrain.txt"):
+    matrice = lire_texte_bis(filename)
+    
+    count = comparaison(matrice)
+    print count
     somme = 0
     resultat =0
-    for acide in alpha:
-        for a in alpha:
-            for i in range(len(count)):
-                for j in range(len(count)):
-                    if acide!=a:
-                        somme += wab(a,i,acide,j)*log((wab(a,i,acide,j)/(calPoids(occ(i,a)))*calPoids(occ(j,acide))),2)
-            resultat = resultat + somme
-            somme = 0
-    return resultat
-
-#print M()
-                    
-            
+    dicoM = {}
+    dico_nij,dico_wij = seconde_fonc(filename)
+    for i in range(len(count)-1):
+        for j in range(i+1,len(count)):
+            for acide1 in alpha:
+                for acide2 in alpha:
+                    if acide2!=acide1:
+                        poids = dico_wij[acide1+acide2+" "+str(i)+" "+str(j)] #poids = Wij(a,b)
+                        somme += poids*log(poids/(we[i][acide1]*we[j][acide2]),2)
+                resultat += somme  
+                somme=0
+            dicoM[str(i)+" "+str(j)] = resultat
+            resultat = 0
+    return dicoM
     
-
+#print(Troisieme_fonction("test_bis.txt"))
