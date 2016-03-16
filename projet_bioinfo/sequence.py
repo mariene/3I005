@@ -10,28 +10,9 @@ import matplotlib.pyplot as plt
 
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'R':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
-#lis le fichier Dtrain et enleve les commentaires
-#@return liste avec que les sequences
-def lire_texte():
-    #contenu = ""
-    contenu = open("Dtrain.txt", "r")
-    #contenu = open("test_bis.txt", "r")
-    #contenu = mon_fichier.read()
 
-    ss_liste = ""
-    liste=[]
-#    i = 1
-    for i in contenu:
-        if (i[0] <> '>'):
-            ss_liste = ""
-            for char in i:
-                if (char <>'\n'):
-                    ss_liste = ss_liste + char
-            liste.append(ss_liste)
-    contenu.close()
-    return liste
 
-def lire_texte_bis(texte):
+def lire_texte(texte):
     #contenu = ""
     contenu = open(texte, "r")
     #contenu = open("test_bis.txt", "r")
@@ -147,7 +128,7 @@ def eq(seq):
 def ss_seq(texte):
     liste = ""
     res = []
-    contenu = lire_texte_bis(texte)[0]
+    contenu = lire_texte(texte)[0]
     #print "contenu est:"+str(contenu)
     for i in range (len(contenu)-48):
         liste = contenu[i:i+48]
@@ -156,7 +137,7 @@ def ss_seq(texte):
     return res
     
 #################################Variables globales######################    
-matrice = lire_texte()    
+matrice = lire_texte("Dtrain.txt")    
 #print matrice
 
 
@@ -192,7 +173,7 @@ def graphe():
     x=np.arange(48)
     plt.ylabel(u'log de vraisemblance')
     plt.title(u"log de vraisemblance en fonction de sa première position i")
-    contenu = lire_texte_bis("test_seq.txt")[0]
+    contenu = lire_texte("test_seq.txt")[0]
     x=np.arange(len(contenu)-48)
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
@@ -222,7 +203,7 @@ def wab(a,i,b,j,matrice):
 
 
 def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtrain.txt
-    matrice = lire_texte_bis(filename)
+    matrice = lire_texte(filename)
     count = comparaison(matrice)
 #    somme = 0
     dico_nij = {}
@@ -263,16 +244,21 @@ def M(i,j):
     return resultat
 
 #print M(0,1)
-                      
+
+
+dico_n = 0
+dico_w = 0       
 def Troisieme_fonction(filename="Dtrain.txt"):
-    matrice = lire_texte_bis(filename)
+    matrice = lire_texte(filename)
     
     count = comparaison(matrice)
-    print count
+    #print count
     somme = 0
     resultat =0
     dicoM = {}
     dico_nij,dico_wij = seconde_fonc(filename)
+    dico_n = dico_nij
+    dico_w = dico_wij
     for i in range(len(count)-1):
         for j in range(i+1,len(count)):
             for acide1 in alpha:
@@ -285,5 +271,5 @@ def Troisieme_fonction(filename="Dtrain.txt"):
             dicoM[str(i)+" "+str(j)] = resultat
             resultat = 0
     return dicoM
-    
-#print(Troisieme_fonction("test_bis.txt"))
+
+Troisieme_fonction("test_bis.txt")
