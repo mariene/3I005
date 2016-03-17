@@ -8,19 +8,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'R':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
-
-
+#la fonction qui permet de récupérer les données du fichier sous
+#forme de matrice (contenu du fichier ligne par ligne)
 def lire_texte(texte):
-    #contenu = ""
+   
     contenu = open(texte, "r")
-    #contenu = open("test_bis.txt", "r")
-    #contenu = mon_fichier.read()
-
+   
     ss_liste = ""
     liste=[]
-#    i = 1
+
     for i in contenu:
         if (i[0] <> '>'):
             ss_liste = ""
@@ -30,8 +29,9 @@ def lire_texte(texte):
             liste.append(ss_liste)
     contenu.close()
     return liste
-    
-# @param liste, plus exactement la liste qu'on a obtenue avec lire_texte()
+
+
+# @param liste, la liste qu'on a obtenue avec lire_texte()
 # @return une liste contenant plusieurs dictionnaires
 # chaque colonne a un dictionnaire : {acide aminé:nb occurence} 
 def comparaison(liste):
@@ -47,7 +47,7 @@ def comparaison(liste):
         d.append(dico)
     return d
    
-
+#la fonction qui permet de calculer le poids d'UN acide aminé
 # @param M = longueur de texte
 # @param n = entier, correspondant au nb occurence de l'acide aminé
 # @return son poids 
@@ -58,36 +58,53 @@ def calPoids (M,n):
 
 
 #pour chaque colonne on calcule le poids de chaque acide aminé 
+#@param M la longueur de texte
+#@param liste la liste de dico retourné par comparaison()
+#@return retourne une liste de dico, chaque dico represente les
+#poids de chaque acide aminé : {acide:poids}
 def weight(M,liste):
     poids = {}
     l2 = []
     for i in range(len(liste)) : 
         poids = {}
         for l in liste[i].keys():
-            #print l
+            
+            #appel de la fonction calPoids pour chaque acide de chaque colonne
             a = calPoids(M,liste[i][l])
+            
             poids.update({l:a})
         l2.append(poids)
     return l2
 
 
 # on calcule ici l'entropie relative d'une distribution d'une seule colonne
+#@param p une distribution (d'une colonne)
+#@return l'entropie calculé
 def e_relative(p): 
     somme = log(21,2)
     for key in p.keys() :#pour chaque acide amine
-        #print p[key]
+       
         somme += p[key]* log(p[key],2)
+        
     return somme
 
+#fonction permet de calculer l'entropie pour les 48 colonnes
+#@param liste , est la liste retourné par weight()
+#@return les entropie calculée stockée dans une liste
 def e_touteColonne(liste):
     liste_entropie = []    
     for i in range(len(liste)):
+        
         res = e_relative(liste[i]) # entropie relative pour chaque colonne
+        
         liste_entropie.append(res)
     return liste_entropie # et les valeurs d'entropies sont stockées dans l'ordre
     
-
-#@param liste est une liste de dico contenant les poids de chaque acide amine
+    
+    
+#fonction permettant de recuperer l'acide le plus conservé de chaque colonne
+#@param liste, resultat de weight()
+#@return la liste des acides les plus representants de chaque colonne
 def liste_argmax(liste): 
     liste_max = []
     for i in range(len(liste)):
@@ -99,7 +116,22 @@ def liste_argmax(liste):
 
 
 
-def f0():  # fonction sans argument car "we" et "alpha" sont des variables globales 
+#la fonction qui permet de calculer f0 d'UN acide aminé
+#@param acidea, un acide donné
+#@return le resultat trouvé
+def f0_bis(acidea):
+    sommepoids=0
+    for i in range (len(we)): # cle est un acide aminé 
+            sommepoids += we[i][acidea]
+    return sommepoids / len(we)
+
+
+
+#la fonction permet de calculer le modele nul
+# fonction sans argument car "we"(resultat de weight())
+# et "alpha" sont des variables globales 
+#@return la liste contenant les f0 de chaque acide
+def f0():  
     liste_poids_moyen = {}
     for acide in alpha.keys():
         liste_poids_moyen[acide]=f0_bis(acide)
@@ -107,15 +139,10 @@ def f0():  # fonction sans argument car "we" et "alpha" sont des variables globa
     return liste_poids_moyen
 
 
-def f0_bis(acidea):
-    sommepoids=0
-    #liste = we
-    for i in range (len(we)): # cle est un acide aminé 
-            sommepoids += we[i][acidea]
-    return sommepoids / len(we)
 
-#print liste_poids_moyen
-
+#fonction qui permet de calculer le log-vraisemblance d'une sequence
+#@param seq, une sequence donnée
+#@return le resultat du calcul
 def eq(seq): 
     res=0.
     for i in range(len(seq)):
@@ -125,6 +152,11 @@ def eq(seq):
             
     return res
 
+
+#fonction permettant de calculer tous les log-vraisemblance 
+#de toutes les sous-sequences du texte
+#@param texte, le texte contenant la sequence à comparer
+#@return la liste des log-vraisemblance
 def ss_seq(texte):
     liste = ""
     res = []
@@ -136,11 +168,15 @@ def ss_seq(texte):
         res.append(eq(liste))
     return res
     
+    
+    
+    
+    
 #################################Variables globales######################    
 matrice = lire_texte("Dtrain.txt")    
 #print matrice
 
-#print len(matrice)
+
 count = comparaison(matrice) #liste de dico qui contient les nb occ de chaque acide amine pour toutes les colonnes(len(count)=48 ici)
 #print count
 #print count[46]
@@ -155,8 +191,7 @@ liste_entropie = e_touteColonne(we)
 
 
 liste = liste_argmax(we)
-print liste
-
+#print liste
 
 
 liste_poids_moyen =  f0()
@@ -165,6 +200,14 @@ liste_poids_moyen =  f0()
 
 #print eq("PPAAAPQPKEPRYKALYDFAGQSAGELSLGKDEIILVTQKENNGWWLA")
 #print(ss_seq("test_seq.txt"))
+
+
+#################################Variables globales######################
+            
+            
+            
+            
+            
             
 #############################graphe###############################################
 def graphe():
@@ -186,11 +229,28 @@ def g_vraissemblance():
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
     plt.show()
-g_vraissemblance()
+#g_vraissemblance()
 ################################graphe############################################
 
+
+
+
+
+
+
+
+
 #################################2epartie#######################################
-# nb de seq avec AA a en position i et avec AA b en position j
+
+
+#la fonction qui calcule le = nombre de s´equences avec acide amin´ee a en position i 
+#ET avec acide amin´ee b en position j
+#@param a, premier acide 
+#@param i, la position de l'acide 'a'
+#@param b, le second acide 
+#@param j, la position de l'acide 'b'
+#@param matrice, le resultat de la lecture du fichier avec la méthode lire_texte(filename)
+#@return le nombre ainsi calculé
 def n(a,i,b,j,matrice): # on utilise la variable global matrice
     nombre_sequence=0
     for sequence in matrice:
@@ -198,16 +258,20 @@ def n(a,i,b,j,matrice): # on utilise la variable global matrice
             nombre_sequence += 1
     return nombre_sequence
 
-
+#calcul du poids Wij(a,b) de l'équation (11)
+#@params les memes que la fonction n()
+#@return le poids calculé
 def wab(a,i,b,j,matrice):
     return (n(a,i,b,j,matrice) + (1/21.0))/ (len(matrice) + 21.0)
 
 
-
-def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtrain.txt
+#fonction qui calcule pour chaque paire de i,j et de a,b
+#le nombre de Nij(a,b) et Wij(a,b)
+#@param filename le nom du fichier à calculer , le texte "Dtrain.txt" par défaut
+#@return deux dictionnaires contenant les resultat, avec clés: [A1A2 i j]
+def seconde_fonc(filename="Dtrain.txt"): 
     matrice = lire_texte(filename)
     count = comparaison(matrice)
-#    somme = 0
     dico_nij = {}
     dico_wij = {}
     for acide1 in alpha:
@@ -221,16 +285,14 @@ def seconde_fonc(filename="Dtrain.txt"):  #par defaut on manipule le fichier Dtr
     return dico_nij,dico_wij
                         
 
-
-def occ(pos,char):
-    dico = count[pos]
-    for i in dico:
-        if i == char :
-            return dico[i]
+##########################bout de code permettant d'afficher M0,1############################
+#def occ(pos,char):
+#    dico = count[pos]
+#    for i in dico:
+#        if i == char :
+#            return dico[i]
 
 #print occ(46,'P')
-
-#print seconde_fonc("test_bis.txt")
 
 
 #def M(i,j,matrice):
@@ -248,10 +310,15 @@ def occ(pos,char):
 #
 #
 #print M(0,1,matrice)
-#print matrice
+##########################bout de code permettant d'afficher M0,1############################
 
 
-def Troisieme_fonction(filename="Dtrain.txt"):
+
+#calculs des informations_mutuelles pour chaque paire de i,j et de a,b
+#@param filename le nom du fichier, "Dtrain.txt" par défaut
+#@return un dictionnaire contenant toutes les infos calculées
+#avec cles sous forme de [i j]
+def Infos_Mutuelles(filename="Dtrain.txt"):
     matrice = lire_texte(filename)
     
     count = comparaison(matrice)
@@ -279,6 +346,34 @@ def Troisieme_fonction(filename="Dtrain.txt"):
             resultat=0
     return dicoM
 
+#print Infos_Mutuelles()
 
-#sprint(Troisieme_fonction("Dtrain.txt"))
 
+
+#fonction permettant d'inverser un dictionnaire, cle:valeur en valeur:cle 
+#@dico le dictionnaire de depart
+#@return le dictionnaire inversé
+def inverseDico(dico):
+    d = {}
+    for cle,valeur in dico.items():
+        d.update({valeur:cle})
+    return d
+
+
+
+#fonction qui permet de selectionner n paires dont les valeurs Mij sont plus grand
+#@param dico le resultat de l'appel de fonction Infos_Mutuelles()
+def select_paires(n,dico):
+    dic_temp =  inverseDico(dico)
+    liste_info_mutuelle = dic_temp.keys()
+    res = []
+    for i in range(n):
+        maxi = max(liste_info_mutuelle)
+        liste_info_mutuelle.remove(maxi)
+        res.append(dic_temp[maxi])
+    return res
+    
+    
+dico_M = Infos_Mutuelles("Dtrain.txt")
+print(quatrieme_fonction(50,dico_M))
+    
