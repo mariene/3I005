@@ -140,7 +140,7 @@ def ss_seq(texte):
 matrice = lire_texte("Dtrain.txt")    
 #print matrice
 
-
+#print len(matrice)
 count = comparaison(matrice) #liste de dico qui contient les nb occ de chaque acide amine pour toutes les colonnes(len(count)=48 ici)
 #print count
 #print count[46]
@@ -155,7 +155,8 @@ liste_entropie = e_touteColonne(we)
 
 
 liste = liste_argmax(we)
-#print liste
+print liste
+
 
 
 liste_poids_moyen =  f0()
@@ -185,7 +186,7 @@ def g_vraissemblance():
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
     plt.show()
-#g_vraissemblance()
+g_vraissemblance()
 ################################graphe############################################
 
 #################################2epartie#######################################
@@ -279,5 +280,5 @@ def Troisieme_fonction(filename="Dtrain.txt"):
     return dicoM
 
 
-print(Troisieme_fonction("Dtrain.txt"))
+#sprint(Troisieme_fonction("Dtrain.txt"))
 
