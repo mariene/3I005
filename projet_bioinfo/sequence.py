@@ -294,7 +294,6 @@ def occ(pos,char):
 
 #print occ(46,'P')
 
-
 def M(i,j,matrice):
     somme = 0
     resultat =0 
@@ -305,21 +304,38 @@ def M(i,j,matrice):
         resultat = resultat + somme
         somme = 0        
     return resultat
-
-
-def fichier():
+#print M(0,1,matrice)
+    
+def paires_de_positions():
     m = 0
     fichier = open("paires_de_positions.txt", "w")
-    fichier.write("couple_ij Mij")
+    fichier.write("couple_ij \t Mij")
     for i in range(len(count)-1):
         for j in range(i+1,len(count)):
             m = M(i,j,matrice)
             fichier.write("\n"+str(i)+","+str(j)+'\t'+ str(m))
     fichier.close()
-fichier()
+#paires_de_positions()
+
+def log_vraisemblance():
+    fichier = open("log_vraisemblance.txt", "w")
+    fichier.write("position \t log_vraisemblance")
+    contenu = lire_texte("test_seq.txt")[0]
+    liste = ss_seq("test_seq.txt")
+    for i in range(1,len(contenu)-48):
+            fichier.write("\n"+str(i-1)+'\t'+ str(liste[i-1]))
+    fichier.close()
+#log_vraisemblance()
 
 
-#print M(0,1,matrice)
+def  entropie_relative():
+    fichier = open("entropie_relative.txt", "w")
+    fichier.write("position entropie_relative arg_max")
+    for i in range(1,len(liste)+1):
+            fichier.write("\n"+str(i)+'\t'+ str(liste_entropie[i])+'\t'+ str(liste[i]))
+    fichier.close()
+entropie_relative()
+
 ##########################bout de code permettant d'afficher M0,1############################
 
 
