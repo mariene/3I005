@@ -286,29 +286,39 @@ def seconde_fonc(filename="Dtrain.txt"):
                         
 
 ##########################bout de code permettant d'afficher M0,1############################
-#def occ(pos,char):
-#    dico = count[pos]
-#    for i in dico:
-#        if i == char :
-#            return dico[i]
+def occ(pos,char):
+    dico = count[pos]
+    for i in dico:
+        if i == char :
+            return dico[i]
 
 #print occ(46,'P')
 
 
-#def M(i,j,matrice):
-#    somme = 0
-#    resultat =0
-#    
-#    for acide in alpha:
-#        for a in alpha:
-#            poidsab = wab(a,i,acide,j,matrice)
-#            somme += poidsab*log(poidsab/(calPoids(len(matrice),occ(i,a))*calPoids(len(matrice),occ(j,acide))),2)
-#        resultat = resultat + somme
-#        somme = 0
-#            
-#    return resultat
-#
-#
+def M(i,j,matrice):
+    somme = 0
+    resultat =0 
+    for acide in alpha:
+        for a in alpha:
+            poidsab = wab(a,i,acide,j,matrice)
+            somme += poidsab*log(poidsab/(calPoids(len(matrice),occ(i,a))*calPoids(len(matrice),occ(j,acide))),2)
+        resultat = resultat + somme
+        somme = 0        
+    return resultat
+
+
+def fichier():
+    m = 0
+    fichier = open("paires_de_positions.txt", "a")
+    fichier.write("\ncouple_ij Mij")
+    for i in range(len(count)-1):
+        for j in range(i+1,len(count)):
+            m = M(i,j,matrice)
+            fichier.write("\n"+str(i)+","+str(j)+'\t'+ str(m))
+    fichier.close()
+fichier()
+
+
 #print M(0,1,matrice)
 ##########################bout de code permettant d'afficher M0,1############################
 
@@ -375,5 +385,5 @@ def select_paires(n,dico):
     
     
 dico_M = Infos_Mutuelles("Dtrain.txt")
-print(quatrieme_fonction(50,dico_M))
+#print(quatrieme_fonction(50,dico_M))
     
