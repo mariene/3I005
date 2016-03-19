@@ -309,8 +309,8 @@ def M(i,j,matrice):
 
 def fichier():
     m = 0
-    fichier = open("paires_de_positions.txt", "a")
-    fichier.write("\ncouple_ij Mij")
+    fichier = open("paires_de_positions.txt", "w")
+    fichier.write("couple_ij Mij")
     for i in range(len(count)-1):
         for j in range(i+1,len(count)):
             m = M(i,j,matrice)
