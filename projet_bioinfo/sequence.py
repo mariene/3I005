@@ -8,11 +8,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'R':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
-#la fonction qui permet de récupérer les données du fichier sous
+#la fonction permet de récupérer les données du fichier sous
 #forme de matrice (contenu du fichier ligne par ligne)
+# @param nom du texte
+# @return une liste avec chaque sequence 
 def lire_texte(texte):
    
     contenu = open(texte, "r")
@@ -31,7 +32,7 @@ def lire_texte(texte):
     return liste
 
 
-# @param liste, la liste qu'on a obtenue avec lire_texte()
+# @param liste, la liste qu'on a obtenu avec lire_texte()
 # @return une liste contenant plusieurs dictionnaires
 # chaque colonne a un dictionnaire : {acide aminé:nb occurence} 
 def comparaison(liste):
@@ -47,15 +48,15 @@ def comparaison(liste):
         d.append(dico)
     return d
    
-#la fonction qui permet de calculer le poids d'UN acide aminé
-# @param M = longueur de texte
+   
+#la fonction permet de calculer le poids d'UN acide aminé
+# @param M = longueur du texte
 # @param n = entier, correspondant au nb occurence de l'acide aminé
 # @return son poids 
 def calPoids (M,n):
     w = n / (M + 21.0) # M = nb ligne sans commentaire et q = taille de l'alphabet 
     return w
     
-
 
 #pour chaque colonne on calcule le poids de chaque acide aminé 
 #@param M la longueur de texte
@@ -67,11 +68,9 @@ def weight(M,liste):
     l2 = []
     for i in range(len(liste)) : 
         poids = {}
-        for l in liste[i].keys():
-            
+        for l in liste[i].keys():           
             #appel de la fonction calPoids pour chaque acide de chaque colonne
-            a = calPoids(M,liste[i][l])
-            
+            a = calPoids(M,liste[i][l])           
             poids.update({l:a})
         l2.append(poids)
     return l2
@@ -82,10 +81,8 @@ def weight(M,liste):
 #@return l'entropie calculé
 def e_relative(p): 
     somme = log(21,2)
-    for key in p.keys() :#pour chaque acide amine
-       
-        somme += p[key]* log(p[key],2)
-        
+    for key in p.keys() :#pour chaque acide amine      
+        somme += p[key]* log(p[key],2)       
     return somme
 
 #fonction permet de calculer l'entropie pour les 48 colonnes
@@ -93,13 +90,10 @@ def e_relative(p):
 #@return les entropie calculée stockée dans une liste
 def e_touteColonne(liste):
     liste_entropie = []    
-    for i in range(len(liste)):
-        
-        res = e_relative(liste[i]) # entropie relative pour chaque colonne
-        
+    for i in range(len(liste)):       
+        res = e_relative(liste[i]) # entropie relative pour chaque colonne       
         liste_entropie.append(res)
     return liste_entropie # et les valeurs d'entropies sont stockées dans l'ordre
-    
     
     
 #fonction permettant de recuperer l'acide le plus conservé de chaque colonne
@@ -115,7 +109,6 @@ def liste_argmax(liste):
     return liste_max
 
 
-
 #la fonction qui permet de calculer f0 d'UN acide aminé
 #@param acidea, un acide donné
 #@return le resultat trouvé
@@ -126,7 +119,6 @@ def f0_bis(acidea):
     return sommepoids / len(we)
 
 
-
 #la fonction permet de calculer le modele nul
 # fonction sans argument car "we"(resultat de weight())
 # et "alpha" sont des variables globales 
@@ -134,10 +126,8 @@ def f0_bis(acidea):
 def f0():  
     liste_poids_moyen = {}
     for acide in alpha.keys():
-        liste_poids_moyen[acide]=f0_bis(acide)
-        
+        liste_poids_moyen[acide]=f0_bis(acide)        
     return liste_poids_moyen
-
 
 
 #fonction qui permet de calculer le log-vraisemblance d'une sequence
@@ -148,8 +138,7 @@ def eq(seq):
     for i in range(len(seq)):
         if(seq[i] in alpha):
             frac = float(we[i][seq[i]])/liste_poids_moyen[seq[i]]
-            res += log(frac,2)
-            
+            res += log(frac,2)           
     return res
 
 
@@ -167,48 +156,35 @@ def ss_seq(texte):
         #print liste
         res.append(eq(liste))
     return res
-    
-    
-    
-    
-    
+       
+       
 #################################Variables globales######################    
 matrice = lire_texte("Dtrain.txt")    
 #print matrice
-
 
 count = comparaison(matrice) #liste de dico qui contient les nb occ de chaque acide amine pour toutes les colonnes(len(count)=48 ici)
 #print count
 #print count[46]
 
-
 we = weight(len(matrice),count)
 #print we
-
 
 liste_entropie = e_touteColonne(we)
 #print liste_entropie
 
-
 liste = liste_argmax(we)
 #print liste
-
 
 liste_poids_moyen =  f0()
 #print liste_poids_moyen
 
-
 #print eq("PPAAAPQPKEPRYKALYDFAGQSAGELSLGKDEIILVTQKENNGWWLA")
 #print(ss_seq("test_seq.txt"))
-
 
 #################################Variables globales######################
             
             
-            
-            
-            
-            
+                      
 #############################graphe###############################################
 def graphe():
     plt.xlabel(u'position i')
@@ -305,6 +281,11 @@ def M(i,j,matrice):
         somme = 0        
     return resultat
 #print M(0,1,matrice)
+
+##########################bout de code permettant d'afficher M0,1############################
+
+
+###########################generation de fichier txt ########################################
     
 def paires_de_positions():
     m = 0
@@ -337,7 +318,11 @@ def entropie_relative():
     fichier.close()
 #entropie_relative()
 
-##########################bout de code permettant d'afficher M0,1############################
+###############################generation de fichier txt ############################################
+
+
+
+
 
 
 
