@@ -262,6 +262,9 @@ def seconde_fonc(filename="Dtrain.txt"):
                         
 
 ##########################bout de code permettant d'afficher M0,1############################
+# @param position (la colonne)
+# @param un acide aminé
+# @return le nombre d'occurrence
 def occ(pos,char):
     dico = count[pos]
     for i in dico:
@@ -270,6 +273,7 @@ def occ(pos,char):
 
 #print occ(46,'P')
 
+# @param
 def M(i,j,matrice):
     somme = 0
     resultat =0 
