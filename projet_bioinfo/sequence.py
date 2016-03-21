@@ -205,7 +205,7 @@ def g_vraissemblance():
     liste = ss_seq("test_seq.txt")
     plt.plot(x,liste)
     plt.show()
-g_vraissemblance()
+#g_vraissemblance()
 ################################graphe############################################
 
 
@@ -285,6 +285,15 @@ def M(i,j,matrice):
         somme = 0        
     return resultat
 #print M(0,1,matrice)
+    
+def M_tout(matrice):
+    liste=[]
+    for i in range(0,len(count)):
+        for j in range(i+1,len(count)):
+            liste.append(M(i,j,matrice))
+    return liste
+
+liste_M = M_tout(matrice)
 
 ##########################bout de code permettant d'afficher M0,1############################
 
@@ -292,16 +301,14 @@ def M(i,j,matrice):
 ###########################generation de fichier txt ########################################
     
 def paires_de_positions():
-    m = 0
     fichier = open("paires_de_positions.txt", "w")
     fichier.write("couple_ij \t Mij")
     for i in range(1,len(count)):
         for j in range(i+1,len(count)+1):
-            m = M(i-1,j-1,matrice)
-            fichier.write("\n"+str(i)+","+str(j)+'\t'+ str(m))
+            fichier.write("\n"+str(i)+","+str(j)+"\t"+ str(liste_M[j-2]))
     fichier.close()
-#paires_de_positions()
-
+paires_de_positions()
+ 
 def log_vraisemblance():
     fichier = open("log_vraisemblance.txt", "w")
     fichier.write("position \t log_vraisemblance")
