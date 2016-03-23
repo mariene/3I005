@@ -10,10 +10,12 @@ import matplotlib.pyplot as plt
 
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'R':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
-#la fonction permet de récupérer les données du fichier sous
-#forme de matrice (contenu du fichier ligne par ligne)
-# @param nom du texte
-# @return une liste avec chaque sequence 
+"""
+la fonction permet de récupérer les données du fichier sous
+forme de matrice (contenu du fichier ligne par ligne)
+ @param nom du texte
+ @return une liste avec chaque sequence 
+"""
 def lire_texte(texte):
    
     contenu = open(texte, "r")
@@ -31,10 +33,11 @@ def lire_texte(texte):
     contenu.close()
     return liste
 
-
-# @param liste, la liste qu'on a obtenu avec lire_texte()
-# @return une liste contenant plusieurs dictionnaires
-# chaque colonne a un dictionnaire : {acide aminé:nb occurence} 
+"""
+ @param liste, la liste qu'on a obtenu avec lire_texte()
+ @return une liste contenant plusieurs dictionnaires
+ chaque colonne a un dictionnaire : {acide aminé:nb occurence} 
+"""
 def comparaison(liste):
     d =[]
     dico ={}
@@ -48,21 +51,23 @@ def comparaison(liste):
         d.append(dico)
     return d
    
-   
-#la fonction permet de calculer le poids d'UN acide aminé
-# @param M = longueur du texte
-# @param n = entier, correspondant au nb occurence de l'acide aminé
-# @return son poids 
+"""   
+la fonction permet de calculer le poids d'UN acide aminé
+ @param M = longueur du texte
+ @param n = entier, correspondant au nb occurence de l'acide aminé
+ @return son poids
+""" 
 def calPoids (M,n):
     w = n / (M + 21.0) # M = nb ligne sans commentaire et q = taille de l'alphabet 
     return w
     
-
-#pour chaque colonne on calcule le poids de chaque acide aminé 
-#@param M la longueur de texte
-#@param liste la liste de dico retourné par comparaison()
-#@return retourne une liste de dico, chaque dico represente les
-#poids de chaque acide aminé : {acide:poids}
+"""
+pour chaque colonne on calcule le poids de chaque acide aminé 
+@param M la longueur de texte
+@param liste la liste de dico retourné par comparaison()
+@return retourne une liste de dico, chaque dico represente les
+poids de chaque acide aminé : {acide:poids}
+"""
 def weight(M,liste):
     poids = {}
     l2 = []
@@ -75,19 +80,22 @@ def weight(M,liste):
         l2.append(poids)
     return l2
 
-
-# on calcule ici l'entropie relative d'une distribution d'une seule colonne
-#@param p une distribution (d'une colonne)
-#@return l'entropie calculé
+"""
+ on calcule ici l'entropie relative d'une distribution d'une seule colonne
+@param p une distribution (d'une colonne)
+@return l'entropie calculé
+"""
 def e_relative(p): 
     somme = log(21,2)
     for key in p.keys() :#pour chaque acide amine      
         somme += p[key]* log(p[key],2)       
     return somme
 
-#fonction permet de calculer l'entropie pour les 48 colonnes
-#@param liste , est la liste retourné par weight()
-#@return les entropie calculée stockée dans une liste
+"""
+fonction permet de calculer l'entropie pour les 48 colonnes
+@param liste , est la liste retourné par weight()
+@return les entropie calculée stockée dans une liste
+"""
 def e_touteColonne(liste):
     liste_entropie = []    
     for i in range(len(liste)):       
@@ -95,10 +103,11 @@ def e_touteColonne(liste):
         liste_entropie.append(res)
     return liste_entropie # et les valeurs d'entropies sont stockées dans l'ordre
     
-    
-#fonction permettant de recuperer l'acide le plus conservé de chaque colonne
-#@param liste, resultat de weight()
-#@return la liste des acides les plus representants de chaque colonne
+"""    
+fonction permettant de recuperer l'acide le plus conservé de chaque colonne
+@param liste, resultat de weight()
+@return la liste des acides les plus representants de chaque colonne
+"""
 def liste_argmax(liste): 
     liste_max = []
     for i in range(len(liste)):
@@ -108,31 +117,34 @@ def liste_argmax(liste):
         liste_max.append(lettre_max)
     return liste_max
 
-
-#la fonction qui permet de calculer f0 d'UN acide aminé
-#@param acidea, un acide donné
-#@return le resultat trouvé
+"""
+la fonction qui permet de calculer f0 d'UN acide aminé
+@param acidea, un acide donné
+@return le resultat trouvé
+"""
 def f0_bis(acidea):
     sommepoids=0
     for i in range (len(we)): # cle est un acide aminé 
             sommepoids += we[i][acidea]
     return sommepoids / len(we)
 
-
-#la fonction permet de calculer le modele nul
-# fonction sans argument car "we"(resultat de weight())
-# et "alpha" sont des variables globales 
-#@return la liste contenant les f0 de chaque acide
+"""
+la fonction permet de calculer le modele nul
+ fonction sans argument car "we"(resultat de weight())
+ et "alpha" sont des variables globales 
+@return la liste contenant les f0 de chaque acide
+"""
 def f0():  
     liste_poids_moyen = {}
     for acide in alpha.keys():
         liste_poids_moyen[acide]=f0_bis(acide)        
     return liste_poids_moyen
 
-
-#fonction qui permet de calculer le log-vraisemblance d'une sequence
-#@param seq, une sequence donnée
-#@return le resultat du calcul
+"""
+fonction qui permet de calculer le log-vraisemblance d'une sequence
+@param seq, une sequence donnée
+@return le resultat du calcul
+"""
 def eq(seq): 
     res=0.
     for i in range(len(seq)):
@@ -141,11 +153,12 @@ def eq(seq):
             res += log(frac,2)           
     return res
 
-
-#fonction permettant de calculer tous les log-vraisemblance 
-#de toutes les sous-sequences du texte
-#@param texte, le texte contenant la sequence à comparer
-#@return la liste des log-vraisemblance
+"""
+fonction permettant de calculer tous les log-vraisemblance 
+de toutes les sous-sequences du texte
+@param texte, le texte contenant la sequence à comparer
+@return la liste des log-vraisemblance
+"""
 def ss_seq(texte):
     liste = ""
     res = []
@@ -218,15 +231,16 @@ def g_vraissemblance():
 
 #################################2epartie#######################################
 
-
-#la fonction qui calcule le = nombre de s´equences avec acide amin´ee a en position i 
-#ET avec acide amin´ee b en position j
-#@param a, premier acide 
-#@param i, la position de l'acide 'a'
-#@param b, le second acide 
-#@param j, la position de l'acide 'b'
-#@param matrice, le resultat de la lecture du fichier avec la méthode lire_texte(filename)
-#@return le nombre ainsi calculé
+"""
+la fonction qui calcule le = nombre de s´equences avec acide amin´ee a en position i 
+ET avec acide aminée b en position j
+@param a, premier acide 
+@param i, la position de l'acide 'a'
+@param b, le second acide 
+@param j, la position de l'acide 'b'
+@param matrice, le resultat de la lecture du fichier avec la méthode lire_texte(filename)
+@return le nombre ainsi calculé
+"""
 def n(a,i,b,j,matrice): # on utilise la variable global matrice
     nombre_sequence=0
     for sequence in matrice:
@@ -234,17 +248,18 @@ def n(a,i,b,j,matrice): # on utilise la variable global matrice
             nombre_sequence += 1
     return nombre_sequence
 
-#calcul du poids Wij(a,b) de l'équation (11)
-#@params les memes que la fonction n()
-#@return le poids calculé
+calcul du poids Wij(a,b) de l'équation (11)
+@params les memes que la fonction n()
+@return le poids calculé
 def wab(a,i,b,j,matrice):
     return (n(a,i,b,j,matrice) + (1/21.0))/ (len(matrice) + 21.0)
 
-
-#fonction qui calcule pour chaque paire de i,j et de a,b
-#le nombre de Nij(a,b) et Wij(a,b)
-#@param filename le nom du fichier à calculer , le texte "Dtrain.txt" par défaut
-#@return deux dictionnaires contenant les resultat, avec clés: [A1A2 i j]
+"""
+fonction qui calcule pour chaque paire de i,j et de a,b
+le nombre de Nij(a,b) et Wij(a,b)
+@param filename le nom du fichier à calculer , le texte "Dtrain.txt" par défaut
+@return deux dictionnaires contenant les resultat, avec clés: [A1A2 i j]
+"""
 def seconde_fonc(filename="Dtrain.txt"): 
     matrice = lire_texte(filename)
     count = comparaison(matrice)
@@ -262,9 +277,11 @@ def seconde_fonc(filename="Dtrain.txt"):
                         
 
 ##########################bout de code permettant d'afficher M0,1############################
-# @param position (la colonne)
-# @param un acide aminé
-# @return le nombre d'occurrence
+"""
+ @param position (la colonne)
+ @param un acide aminé
+ @return le nombre d'occurrence
+"""
 def occ(pos,char):
     dico = count[pos]
     for i in dico:
@@ -273,7 +290,12 @@ def occ(pos,char):
 
 #print occ(46,'P')
 
-# @param
+"""
+ @param i : position du premier acide aminé
+ @param j : position du second acide aminé
+ @param matrice :  le resultat de la lecture du fichier avec la méthode lire_texte(filename)
+ pour tout les acides aminées qui sont en position i et j on calcule leur 'information mutuelle'
+""" 
 def M(i,j,matrice):
     somme = 0
     resultat =0 
@@ -327,13 +349,12 @@ def entropie_relative():
 
 
 
-
-
-
-#calculs des informations_mutuelles pour chaque paire de i,j et de a,b
-#@param filename le nom du fichier, "Dtrain.txt" par défaut
-#@return un dictionnaire contenant toutes les infos calculées
-#avec cles sous forme de [i j]
+"""
+calculs des informations_mutuelles pour chaque paire de i,j et de a,b
+@param filename le nom du fichier, "Dtrain.txt" par défaut
+@return un dictionnaire contenant toutes les infos calculées
+avec cles sous forme de [i j]
+"""
 def Infos_Mutuelles(filename="Dtrain.txt"):
     matrice = lire_texte(filename)
     
@@ -366,9 +387,9 @@ def Infos_Mutuelles(filename="Dtrain.txt"):
 
 
 
-#fonction permettant d'inverser un dictionnaire, cle:valeur en valeur:cle 
-#@dico le dictionnaire de depart
-#@return le dictionnaire inversé
+fonction permettant d'inverser un dictionnaire, cle:valeur en valeur:cle 
+@dico le dictionnaire de depart
+@return le dictionnaire inversé
 def inverseDico(dico):
     d = {}
     for cle,valeur in dico.items():
@@ -376,11 +397,12 @@ def inverseDico(dico):
     return d
 
 
-
-#fonction qui permet de selectionner n paires dont les valeurs Mij sont plus grand
-#@param n le nombre de paires que l'on veut 
-#@param dico le resultat de l'appel de fonction Infos_Mutuelles()
-#@return la liste de paires récupérée
+"""
+fonction qui permet de selectionner n paires dont les valeurs Mij sont plus grand
+@param n le nombre de paires que l'on veut 
+@param dico le resultat de l'appel de fonction Infos_Mutuelles()
+@return la liste de paires récupérée
+"""
 def select_paires(n,dico):
     dic_temp =  inverseDico(dico)
     liste_info_mutuelle = dic_temp.keys()
@@ -393,9 +415,11 @@ def select_paires(n,dico):
     
 paires = select_paires(50,Infos_Mutuelles())
 
-# stockage des données du fichier distace.txt dans un dictionnaire 
-# @param un nom de fichier
-# @return un dictionnaire {position : valeur}
+"""
+ stockage des données du fichier distace.txt dans un dictionnaire 
+ @param un nom de fichier
+ @return un dictionnaire {position : valeur}
+""" 
 def lire_texte_dico(filename="distances.txt"):
     liste = []
     gd_liste =[]
