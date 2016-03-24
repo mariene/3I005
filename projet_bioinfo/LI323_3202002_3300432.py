@@ -460,11 +460,11 @@ def g_fraction():
     plt.ylabel(u'fraction')
     plt.title(u"log de vraisemblance en fonction de sa première position i")
     liste = []
-    for i in range (0,60,10):
+    for i in range (10,60,10):
         p=select_paires(i,Infos_Mutuelles())
         liste.append(frac(p,lire_texte_dico()))
-    x=np.arange(0,60,10)
+    x=np.arange(10,70,10) #[10,70[
     plt.plot(x,liste)
     plt.show()
 
-g_fraction()
+#g_fraction()
