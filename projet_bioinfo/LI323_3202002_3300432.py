@@ -119,7 +119,7 @@ def liste_argmax(liste):
 
 """
 la fonction qui permet de calculer f0 d'UN acide aminé
-@param acidea, un acide donné
+@param acidea, un acide aminé donné
 @return le resultat trouvé
 """
 def f0_bis(acidea):
@@ -248,9 +248,11 @@ def n(a,i,b,j,matrice): # on utilise la variable global matrice
             nombre_sequence += 1
     return nombre_sequence
 
+"""
 calcul du poids Wij(a,b) de l'équation (11)
 @params les memes que la fonction n()
 @return le poids calculé
+"""
 def wab(a,i,b,j,matrice):
     return (n(a,i,b,j,matrice) + (1/21.0))/ (len(matrice) + 21.0)
 
@@ -386,10 +388,11 @@ def Infos_Mutuelles(filename="Dtrain.txt"):
 #print Infos_Mutuelles()
 
 
-
+"""
 fonction permettant d'inverser un dictionnaire, cle:valeur en valeur:cle 
 @dico le dictionnaire de depart
 @return le dictionnaire inversé
+"""
 def inverseDico(dico):
     d = {}
     for cle,valeur in dico.items():
@@ -417,7 +420,7 @@ paires = select_paires(50,Infos_Mutuelles())
 
 """
  stockage des données du fichier distace.txt dans un dictionnaire 
- @param un nom de fichier
+ @param un nom de fichier (utilisation du fichier distances.txt)
  @return un dictionnaire {position : valeur}
 """ 
 def lire_texte_dico(filename="distances.txt"):
