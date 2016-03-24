@@ -451,7 +451,20 @@ def frac(paires,dico):
     return float(nb_inf_8)/len(paires)
         
         
-print frac(paires,lire_texte_dico())
+#print frac(paires,lire_texte_dico())
 #dico_M = Infos_Mutuelles("Dtrain.txt")
 #print(quatrieme_fonction(50,dico_M))
-    
+
+def g_fraction():
+    plt.xlabel(u'nombre de paires considérées')
+    plt.ylabel(u'fraction')
+    plt.title(u"log de vraisemblance en fonction de sa première position i")
+    liste = []
+    for i in range (0,60,10):
+        p=select_paires(i,Infos_Mutuelles())
+        liste.append(frac(p,lire_texte_dico()))
+    x=np.arange(0,60,10)
+    plt.plot(x,liste)
+    plt.show()
+
+g_fraction()
