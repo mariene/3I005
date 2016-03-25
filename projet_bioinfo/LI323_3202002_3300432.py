@@ -463,11 +463,7 @@ def g_fraction():
     for i in range (10,60,10):
         p=select_paires(i,Infos_Mutuelles())
         liste.append(frac(p,lire_texte_dico()))
-<<<<<<< HEAD
     x= np.arange(10,60,10) #[10,70[
-=======
-    x=np.arange(10,60,10) #[10,70[
->>>>>>> e630644f665cdb94b7c132fc2b8df636a45ed7c8
     plt.plot(x,liste)
     plt.show()
 
