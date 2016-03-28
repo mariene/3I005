@@ -7,54 +7,116 @@ Created on Wed Mar 23 16:14:34 2016
 
 from math import *
 import numpy as np
+
 #Node,Arc,simple web
 class Node():
     def __init__(self,identifiant):
         self.id = identifiant
         self.liste_ent = []
-        self.liste_sort=[]        
+        self.liste_sort=[]     
+        
+    def __str__(self):
+        return "I'm a node, my ID is "+str(self.id)+"\n"
 
 class Arc():
+    
     def __init__(self,tail,head):
-    """
-    constructeur 
-    @param tail, l'id du noeud sortant
-    @param head, l'id du noeud entrant
-    et la valeur de prob est initialisée à 0 par défaut.
-    """
+        
+        """
+        constructeur 
+        @param tail, l'id du noeud sortant
+        @param head, l'id du noeud entrant
+        et la valeur de prob est initialisée à 0 par défaut.
+        """
+        
         self.prob = 0.0
         self.tail = tail
         self.head = head
+        
+        
+    def __str__(self):
+        
+        string = "I'm a edge, from "+str(self.tail)+" to "+str(self.head)
+        string += " with a proba " + str(self.prob)+"\n" 
+        return string
+     
+    def equals(self,arc):
+        return arc.head == self.head and arc.tail == self.tail
 
-
-
+       
 class SimpleWeb():
+    
     def __init__(self,taille):
+        
         """
         @param taille, la taille maximale du nombre de noeud dans le graphe
         la liste_node est une liste vide par défaut.
         """
+        
         self.liste_node = []
-        self.matrice = zeros(taille,taille)
-    
-    def AddArc(tail,head):
+        self.matrice = np.zeros((taille,taille))
+        
+        
+    def __str__(self):
+        
+        string = "I'm the graph, I have got "+str(len(self.liste_node))+" nodes.\n"
+        string += " They are:\n"
+        
+        for node in self.liste_node:
+            string += node.__str__()
+        
+        string += "My edges are:\n"
+        
+        for node in self.liste_node:
+            for arc in node.liste_sort:
+                string += arc.__str__()
+                
+        return string
+        
+        
+    def AddArc(self,tail,head):
+        
         """
         @param tail, id du noeud sortant
         @param head, id du noeud entrant
-        Création d'un nouvel arc, du tail à head
+        Création d'un nouvel arc, du tail à head (pas de doublon)
         et puis on ajoute cet arc dans les bonnes listes des noeuds
         """
-        Arc = Arc(tail,head)
-        liste_node[tail].liste_sort.append(Arc)
-        liste_node[head].liste_ent.append(Arc)
+
+        #liste_node_id est la variable stockant la liste d'identifiants des noeuds du graph
+        liste_node_id = [node.id for node in self.liste_node]
+        #si un noeud n'est pas dans le graph alors Exception   
+        if(tail not in liste_node_id or head not in liste_node_id):
+            raise Exception("impossible d'ajouter l'arc "+str(tail)+" "+str(head))
+            
+            
+        arc1 = Arc(tail,head)
+
+         #verifier l'unicité de l'arc
+        for node in self.liste_node:
+            for arc2 in node.liste_sort:
+                if arc2.equals(arc1):
+                    raise Exception("impossible d'ajouter deux arcs identiques")
+
+
+        for node in self.liste_node:
+            if node.id == tail:
+                node.liste_sort.append(arc1)
+            if node.id ==head:
+                node.liste_ent.append(arc1)
+        #updateProbas() 
         
-    def updateProbas():
+        
+    def updateProbas(self):
+        
         """
         mettre à jour les probabilités suivant la proposition 
         faite par PageRank
         """        
-        for node in liste_node:
-            proba = 1./len(node.liste_sort)
-            for arc in node.liste_sort:
-                arc.prob = proba
-              
+        
+        for node in self.liste_node:
+            if len(node.liste_sort)!=0: 
+            # si ce noeud a au moins 1 arc sortant
+                proba = 1./len(node.liste_sort)
+                for arc in node.liste_sort:
+                    arc.prob = proba
