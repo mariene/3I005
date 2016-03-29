@@ -3,11 +3,13 @@
 Created on Wed Feb 24 16:09:31 2016
 @author:   3202002
 """
+#pour faire les calculs des différentes equations
 from math import *
+#pour tracer les courbes
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+#on suppose qu'il y ait au moins 1 acide aminé
 alpha = {'A':1,'C':1,'D':1,'E':1,'F':1,'G':1,'H':1,'I':1,'K':1,'L':1,'M':1,'N':1,'P':1,'Q':1,'R':1,'S':1,'T':1,'V':1,'W':1,'Y':1,'-':1}
 
 """
@@ -199,26 +201,49 @@ liste_poids_moyen =  f0()
             
                       
 #############################graphe###############################################
+"""
+Fonction qui permet de tracer la courbe de l'entropie
+"""
 def graphe():
-    plt.xlabel(u'position i')
-    plt.ylabel(u'entropie relative')
-    plt.title(u"graphe représentant l'entropie relative en fonction de la position i")
-    x=np.arange(48)
-    plt.plot(x,liste_entropie)
+    plt.xlabel(u'position i') #nom abscisse
+    plt.ylabel(u'entropie relative') # nom ordonné
+    plt.title(u"graphe représentant l'entropie relative en fonction de la position i")#titre du graphe
+    x=np.arange(48)#valeur abscisse
+    plt.plot(x,liste_entropie) #liste_entropie variable globale : liste des entropies de chaque colonne
     plt.show()
     
 #graphe()
 
-def g_vraissemblance():
-    plt.xlabel(u'position i')
-    plt.ylabel(u'log de vraisemblance')
-    plt.title(u"log de vraisemblance en fonction de sa première position i")
-    contenu = lire_texte("test_seq.txt")[0]
-    x=np.arange(len(contenu)-48)
-    liste = ss_seq("test_seq.txt")
+"""
+Fonction qui permet de tracer la courbe de vraisemblance
+"""
+def g_vraisemblance():
+    plt.xlabel(u'position i') #nom abscisse
+    plt.ylabel(u'log de vraisemblance') # nom ordonné
+    plt.title(u"log de vraisemblance en fonction de sa première position i") #titre du graphe
+    contenu = lire_texte("test_seq.txt")[0] #pour calculer le nombre de première position i
+    x=np.arange(len(contenu)-48) #pour chaque i premiere position (valeur abscisse)
+    liste = ss_seq("test_seq.txt")#calcul du log-vraisemblance
+    plt.plot(x,liste) # creer graphe de x en fonction d'y
+    plt.show()
+#g_vraisemblance()
+
+"""
+Fonction qui permet de tracer la courbe de fraction
+"""
+def g_fraction():
+    plt.xlabel(u'nombre de paires considérées')#nom abscisse
+    plt.ylabel(u'fraction')# nom ordonné
+    plt.title(u"fraction en fonction du nombre de paires considérées")#titre du graphe
+    liste = [] #creation d'une liste pour les valeurs de l'axe des ordonnées
+    for i in range (10,60,10):
+        p=select_paires(i,Infos_Mutuelles()) 
+        liste.append(frac(p,lire_texte_dico()))#ajoute dans une liste la fraction obtenue pour 10,20,30,40,50 paires
+    x= np.arange(10,60,10) #[10,60[ valeur de l'axe des abscisse
     plt.plot(x,liste)
     plt.show()
-#g_vraissemblance()
+
+#g_fraction()
 ################################graphe############################################
 
 
@@ -308,7 +333,9 @@ def M(i,j,matrice):
         resultat = resultat + somme
         somme = 0        
     return resultat
-#print M(0,1,matrice)
+    
+print "la valeur de correlation pour M0,1 est:",M(0,1,matrice),"\n"
+print ("Si vous voulez voir tout autre chose, ouvrez ce fichier, les appels des fonctions sont commentés,il suffit d'enlever '#' pour voir ce qui se passe. \nBonne lecture!!")
 
 ##########################bout de code permettant d'afficher M0,1############################
 
@@ -416,7 +443,7 @@ def select_paires(n,dico):
         res.append(dic_temp[maxi])  
     return res
     
-paires = select_paires(50,Infos_Mutuelles())
+#paires = select_paires(50,Infos_Mutuelles())
 
 """
  stockage des données du fichier distace.txt dans un dictionnaire 
@@ -439,7 +466,13 @@ def lire_texte_dico(filename="distances.txt"):
     
     return dico    
     
-    
+"""
+fonction permettant de calculer la portion de couple de position ayant une distance < 8 sur le nombre total
+de couple récupére, c'est-à-dire len(paires)
+@param paires, la liste des couples de position récupérée par la fonction select_paires()
+@param dico, le dictionnaire contenant les distances de tout couple, ce dictionnaire est extrait du fichier "distance.txt"
+@return la portion ainsi calculée.
+""" 
 def frac(paires,dico):
     nb_inf_8 = 0
     a = 0.0
@@ -455,18 +488,6 @@ def frac(paires,dico):
 #dico_M = Infos_Mutuelles("Dtrain.txt")
 #print(quatrieme_fonction(50,dico_M))
 
-def g_fraction():
-    plt.xlabel(u'nombre de paires considérées')
-    plt.ylabel(u'fraction')
-    plt.title(u"log de vraisemblance en fonction de sa première position i")
-    liste = []
-    for i in range (10,60,10):
-        p=select_paires(i,Infos_Mutuelles())
-        liste.append(frac(p,lire_texte_dico()))
-    x= np.arange(10,60,10) #[10,70[
-    plt.plot(x,liste)
-    plt.show()
 
-g_fraction()
 
  
