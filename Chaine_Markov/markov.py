@@ -5,6 +5,7 @@ Created on Wed Mar 23 16:14:34 2016
 @author: 3202002
 """
 
+import random
 from math import *
 import numpy as np
 
@@ -141,9 +142,15 @@ class Internaute():
         
         self.graph = web
         self.pos = 0
-        self.cpt_node = []
+        #self.cpt_node = []
+        self.epsilon = 0.0
+        self.ti=[]
+        self.ti2=[]
+        self.diff=[]
+        
         for i in range(len(web.liste_node)):
-            self.cpt_node.append(0)
+            self.ti.append(0)
+            self.ti2.append(0)
         
     def __str__(self):
         return "I'm the robo, I have ",nbPas," steps"
@@ -153,8 +160,10 @@ class Internaute():
         permet au robot de se positionner dans le noeud passé en paramètre
         """
         self.pos = node.id
+        
+        self.ti2[node] = self.ti2[node]+1 # on incremente le compteur du noeud de 1
     
-    def trace(nbIte, filename):
+    def trace(self,nbIte, filename):
         """
         internaute conserve les valeurs de epsilon
         toutes les 100 iterations
@@ -163,13 +172,55 @@ class Internaute():
         
         fichier = open(filename,"w")
         
+    def epsilon(self):
         
-    def walk(nbPas, epsilon):
+        somme1=0
+        somme2=0
+        for i in range(len(self.ti2)):
+            somme1 = somme1+self.ti[i]
+            somme2 = somme2 + self.ti2[i]
         
+        
+        self.diff.append(abs(self.ti[noeud]/somme1-self.ti2[noeud]/somme2))
+        
+        return max(self.diff)
+    
+    
+    def walk(nbPas, e):
+        possibleNodes=[]
         for i in range(nbPas-1):
-            prev_pos = self.pos #position Ti
-            dis = web.matrice[prev_pos] #la distribution de proba de la position Ti
-            dis = [prob for ]
-            epsi = max(self.cpt_node)
-            if epsi <= epsilon:
+            
+            possibleNodes = graph.matrice[self.pos] #une liste contenant les probas d'aller a un noeud i
+            
+            possibleNodes = np.cumsum(possibleNodes) #transforme cette liste en une liste proba cumulee
+            
+            proba = random.random()
+        
+            j=0
+
+            #prev_pos = self.pos #position Ti
+            while((j < (len(possibleNodes))) or (proba<possibleNodes[j])):
+                # j < len(possibleNodes) pour de boucler sur une liste contenant que des 0
+               j = j + 1
+
+            eps = epsilon(self.pos)   
+
+            goTo(j)
+
+            self.ti=self.ti2
+            
+            if epsilon() <= e:
                 break
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
