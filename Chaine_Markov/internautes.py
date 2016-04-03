@@ -24,6 +24,7 @@ class Internaute():
         self.diff=[]
         self.nbPas =0
         self.noeud=[]
+        self.liste_epsilon=[]
         
         for i in range(len(web.liste_node)):
             self.ti.append(0)
@@ -50,17 +51,18 @@ class Internaute():
         internaute conserve les valeurs de epsilon
         toutes les 100 iterations
         dans ce fichier 
-        """        
-        fichier = open(filename,"w")
+        """              
+        """
         for i in range (self.nbPas): 
             a = self.epsilon()
             if (i%nbIte == 0):
                 fichier.write("\n"+str(a))
         """
-        for i un range (len(self.diff)):
+        fichier = open(filename,"w")
+        for i in range (len(self.diff)):
             if (i%nbIte == 0):
                 fichier.write("\n"+str(self.diff[i]))
-        """
+        
             
         
     def epsilon(self,noeud):        
@@ -80,14 +82,12 @@ class Internaute():
         else :    
             div2= self.ti2[noeud]/somme2
         
-        print "div2 " + str(div2)
-        print "div1 " + str(div1)
-        
         diff = abs(div1-div2)
         self.diff.append(diff)
-        print self.diff
+        #print self.diff
         return max(self.diff)
         
+
     
     def walk(self,nbPas,e):
         self.nbPas=nbPas
@@ -99,31 +99,19 @@ class Internaute():
             #print possibleNodes
             possibleNodes = np.cumsum(possibleNodes) #transforme cette liste en une liste proba cumulee
             proba = random.random()
-            #print proba
-           # print possibleNodes
-          
-            
+
             #prev_pos = self.pos #position Ti
             for j in range (len(possibleNodes)) :
                 #print "j" + str(j) + " "+str(possibleNodes[j]) + " "+ str(proba > possibleNodes[j])
-
-                
+               
                 # j < len(possibleNodes) pour de boucler sur une liste contenant que des 0             
                 if (proba < possibleNodes[j]) or (proba == possibleNodes[j]):
-                #if ((proba < possibleNodes[j]) and  (proba > possibleNodes[j+1])) or (proba == possibleNodes[j]) :
                     break
-                
-                #print j
-            #print j
-            #self.pos = j
-            
+           
             eps = self.epsilon(self.pos)  
-            print eps
-            
-            #self.ti=self.ti2
-            self.goTo(j)
 
-                
+            self.goTo(j)
+             
             if eps <= e:
                 break
             
