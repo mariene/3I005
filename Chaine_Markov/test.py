@@ -45,6 +45,7 @@ graph.AddArc(3,2)
 graph.AddArc(2,4)
 graph.AddArc(1,1)
 graph.AddArc(2,9)
+graph.AddArc(2,9)
 #graph.AddArc(1,5)
 #graph.AddArc(1,0)
 
