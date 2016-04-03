@@ -18,7 +18,7 @@ graph.AddArc(1,2)
 graph.AddArc(2,4)
 graph.AddArc(1,1)
 graph.AddArc(2,9)
-graph.AddArc(2,9)
+
 
 graph.AddArc(2,3)
 graph.AddArc(3,9)

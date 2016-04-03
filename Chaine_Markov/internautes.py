@@ -23,10 +23,12 @@ class Internaute():
         self.ti2=[]
         self.diff=[]
         self.nbPas =0
+        self.noeud=[]
         
         for i in range(len(web.liste_node)):
             self.ti.append(0)
             self.ti2.append(0)
+            self.noeud.append(0)
     
     
     def __str__(self):
@@ -41,6 +43,7 @@ class Internaute():
         self.ti[node]=self.ti2[node]
         self.ti2[node] = self.ti2[node]+1 # on incremente le compteur du noeud de 1
        # print self.pos
+        self.noeud[node]=self.noeud[node]+1
     
     def trace(self,nbIte,filename):
         """
@@ -125,5 +128,12 @@ class Internaute():
                 break
             
     def showFrequencies():
-        return 0
+        somme =0.0
+        for i in range (len(self.noeud)):
+            somme = somme + self.noeud[i]
+        
+        liste =[]
+        for j in range (len(self.noeud)):
+            liste[j]=self.noeud[j]/somme
+        return liste
         
