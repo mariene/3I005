@@ -1,63 +1,115 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb 25 19:31:44 2016
+Created on Fri Feb 26 14:27:35 2016
 
-@author: 3202002
-"""
-from bayesienne_bis import *
-from random import *
-from string import *
+@author: 3300432
+#"""
+import random
+import string
+from huffman_bis import *
+from Entropie import *
+import string
+from bayesienne import *
+import math
+import numpy as np
 
-francais = liste_couples(moyenne_texte(proba_textes(["bouleDeSuif.txt","arseneLupin.txt","montecristo.txt"])))
-anglais = liste_couples(moyenne_texte(proba_textes(["warandpeace.txt","moby.txt","astro.txt"])))
-allemand = liste_couples(moyenne_texte(proba_textes(["faust.txt","kleine.txt","Iphiginie.txt"])))
 
-francais_nb = liste_couple_nb(count_ngrams("bouleDeSuif.txt",2))
-anglais_nb = liste_couple_nb(count_ngrams("warandpeace.txt",2))
-allemand_nb = liste_couple_nb(count_ngrams("faust.txt",2))
-#print(francais)
+##########################Variable globales############################"
 
-#def lettre_associe():
+# trois distributions en probabilite que l'on va utiliser pour comparer
+francais = liste_couples(moyenne_texte(proba_textes(["bouleDeSuif.txt","arseneLupin.txt","montecristo.txt"],2)))
+anglais = liste_couples(moyenne_texte(proba_textes(["warandpeace.txt","moby.txt","astro.txt"],2)))
+allemand = liste_couples(moyenne_texte(proba_textes(["faust.txt","kleine.txt","Iphiginie.txt"],2)))
+#print francais
+# trois distributions en nombre que l'on va utiliser
+francais_nb = liste_couple_nb(count_ngrams("francais.txt",2))
+anglais_nb = liste_couple_nb(count_ngrams("anglais.txt",2))
+allemand_nb = liste_couple_nb(count_ngrams("allemand.txt",2))
+#print(francais_nb)
+###########################Variables globales##########################
 
-def count_ngrams_bis(text,n): 
-    count = collections.Counter() # renvoie un dico: {caractere:occurence}
-    contenu=""
-    punc = set(string.punctuation)
-    with codecs.open(text,encoding="utf-8") as f:
-       for char in f.read():#lecture fichier + copie dans contenu
-           if char.isalpha():
-               contenu += char.lower()
-    contenu=unicodedata.normalize("NFKD",contenu).encode("ascii","ignore")
-    contenu = "".join([c for c in contenu if c not in punc])
-    #print contenu
-    if (n == 1):# pour chaque caractère
-        for char in contenu:
-            count[char] += 1  
-    else :#pour chaque n caractère.Counter() # renvoie un dico: {caractere:occurence}
-        i=0
-        while i < len(contenu)-1:
-            s=""
-            for j in range (n):
-                if i+j < len(contenu): 
-                    s = s + contenu[i+j]
-            if (s in contenu) == True:
-                count[s]+=1
-            i=i+1    
-    f.close()
-    return count
 
-print(count_ngrams_bis("horla.txt",1))
+def trie(dico):
+    items = dico.items()
+    comparateur = lambda a,b : cmp(a[1],b[1])
+    return sorted(items, comparateur, reverse=False)
     
-def generation(n,langue):
+    
+    
+def generation(n,langue="fr",resultname="data.txt"):
+    if(langue=="francais" or langue == "fr"):
+        langue = francais
+    elif(langue=="allemand" or langue =="ge"):        
+        langue = allemand
+    elif(langue=="anglais" or langue =="en"):
+        langue = anglais
+    else:
+        print("langue inconnue, generation d'un texte en francais est effectué")
+        langue = francais
+    
+    i = random.randrange(26)
+    alphabet = list(string.lowercase)
+    premierelettre = alphabet[i]  
+    fichier = open(resultname, "w") # la premiere lettre du fichier etant generee aleatoirement
+  
+    fichier.write(premierelettre)
+    dicoalphabet = {}
+    
+    for i in range(26):        # creation d'un dictionnaire
+        dicoalphabet.update({alphabet[i]:{}})
         
-    i = randrange(26)
-    alphabet = string.lowercase
-    premierelettre = alphabet[i]  # on prend la premiere lettre aleatoirement
+    for lettre in dicoalphabet:
+        for couple in langue:
+            if couple[0][0] == lettre:
+                resultat = DebutLettre([lettre,couple[0][1]],langue) #resultat[0]= le nombre total des couples commencant par  , resultat[1]= nbr d'occurence du couple (de lettre)
+                dicoalphabet[lettre].update({couple[0][1]:resultat[1]})
+        
+    #deux boucles sur dicoalphabet car la premiere modifie les donnees dans ceci
+    for lettre in dicoalphabet:
+        somme = 0
+        for secondelettre in dicoalphabet[lettre]:
+            somme += dicoalphabet[lettre][secondelettre] # on recupere la somme des probabilite
+        
+        for secondelettre in dicoalphabet[lettre]:
+            dicoalphabet[lettre][secondelettre] = dicoalphabet[lettre][secondelettre] / somme # en divisant chaque proba avec la somme , on obtient sa frequence
+
+        somme_cumulee = np.cumsum(dicoalphabet[lettre].values())
+        i=0        
+        for secondelettre in dicoalphabet[lettre]:
+           dicoalphabet[lettre][secondelettre] = somme_cumulee[i]  # on fait la somme cumulee des probabilites
+           i += 1
     
-    fichier = open("data.txt", "w")
     
-    fichier.write("Bonjour monde")
     
+    
+#######################################################Commencement de la generation du fichier ################################# ###########################
+    i=0
+    nbmot=0
+    while ( i<n):
+        longmot = random.randrange(8) #longueur d'un mot est de max 8 caracteres
+                           
+        for j in range(longmot):
+            alea = random.random()
+            liste_cumulee = trie(dicoalphabet[premierelettre]) #car le dictionnaire n'est pas trie 
+                                                                 #exemple liste_cumulee = [("a",0.5),("b",1)] 
+            for index in range(len(liste_cumulee)):
+                if liste_cumulee[index][1] - alea > 0:
+                     secondelettre = liste_cumulee[index][0]
+                     fichier.write(secondelettre)
+                     premierelettre = secondelettre
+                     i += 1
+                     break
+        fichier.write(" ")
+        nbmot +=1
+        if(nbmot==10):
+            fichier.write("\n")
+            nbmot=0
+            
     fichier.close()
 
-#generation("aa")
+    return dicoalphabet
+
+######################################################################test##################################################################################
+
+d = generation(1000,"ge","ge.txt")
+
