@@ -1,27 +1,3 @@
 0 eme valeur d'epsilon est: 0.5
-100 eme valeur d'epsilon est: 0.00514463211027
-200 eme valeur d'epsilon est: 0.00253682084626
-300 eme valeur d'epsilon est: 0.00168313128424
-400 eme valeur d'epsilon est: 0.00125928958698
-500 eme valeur d'epsilon est: 0.00100595621506
-600 eme valeur d'epsilon est: 0.000837474640826
-700 eme valeur d'epsilon est: 0.000717330959842
-800 eme valeur d'epsilon est: 0.000627333040682
-900 eme valeur d'epsilon est: 0.000557399883352
-1000 eme valeur d'epsilon est: 0.000501494513471
-1100 eme valeur d'epsilon est: 0.000455781000938
-1200 eme valeur d'epsilon est: 0.000417705156962
-1300 eme valeur d'epsilon est: 0.000385500459885
-1400 eme valeur d'epsilon est: 0.000357906162401
-1500 eme valeur d'epsilon est: 0.000333998373033
-1600 eme valeur d'epsilon est: 0.000313084596784
-1700 eme valeur d'epsilon est: 0.000294635560336
-1800 eme valeur d'epsilon est: 0.000278239798952
-1900 eme valeur d'epsilon est: 0.000263572606371
-2000 eme valeur d'epsilon est: 0.000250374313343
-2100 eme valeur d'epsilon est: 0.000238434780955
-2200 eme valeur d'epsilon est: 0.000227582128675
-2300 eme valeur d'epsilon est: 0.000217674406663
-2400 eme valeur d'epsilon est: 0.000208593352548
-2500 eme valeur d'epsilon est: 0.000200239648345
-la derniere valeur est: 0.000199919649519
+100 eme valeur d'epsilon est: 0.00038827412153
+la derniere valeur est: 0.000199780241734

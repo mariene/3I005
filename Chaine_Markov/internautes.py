@@ -17,12 +17,9 @@ class Internaute():
         
         self.graph = web
         self.pos = 0
-        #self.cpt_node = []
-        #self.epsilon = 0.0
         self.ti=[]
         self.ti2=[]
         self.diff=[]
-        self.nbPas =0
         self.noeud=[]
         self.liste_epsilon=[]
         
@@ -41,10 +38,12 @@ class Internaute():
         permet au robot de se positionner dans le noeud passé en paramètre
         """
         self.pos = node  
-        self.ti[node]=self.ti2[node]
+       
+        self.ti = np.copy(self.ti2)
         self.ti2[node] = self.ti2[node]+1 # on incremente le compteur du noeud de 1
        # print self.pos
         self.noeud[node]=self.noeud[node]+1
+      
     
     def trace(self,nbIte,filename):
         """
@@ -65,30 +64,26 @@ class Internaute():
         
             
         
-    def epsilon(self,noeud):        
-        somme1=0.0
-        somme2=0.0
-        for i in range(len(self.ti2)):
-            somme1 = somme1 + self.ti[i]
-            somme2 = somme2 + self.ti2[i]
-        
-        if (somme1 ==0):
-            div1 =0
-        else :
-            div1 = self.ti[noeud]/somme1
-            
-        if (somme2 ==0):
-            div2=0 
-        else :    
-            div2= self.ti2[noeud]/somme2
-        
-        diff = abs(div1-div2)
-        self.diff.append(diff)
-        #print self.diff
-        return max(self.diff)
-        
-
+    def epsilon(self):
+        """
+        calcule la valeur d'epsilon, la fonction est appelee a chaque deplacement de l'internaute
+        """
     
+        somme1=np.sum(self.ti)
+        somme2=np.sum(self.ti2)            
+        #comme ti2 contient la liste de compteur à l'instant t+1, donc les deux sommes sont differentes
+
+        for i in range(len(self.ti2)):  
+        
+            self.diff.append(abs(float(self.ti[i])/somme1-float(self.ti2[i])/somme2)) 
+            #pour chaque noeud on calcule leur difference de compteur entre l'instant ti et ti+1
+        self.liste_epsilon.append(max(self.diff))
+        
+        self.diff = []
+        
+        return self.liste_epsilon[len(self.liste_epsilon)-1]
+        
+    """
     def walk(self,nbPas,e):
         self.nbPas=nbPas
         #possibleNodes=[]
@@ -99,29 +94,59 @@ class Internaute():
             #print possibleNodes
             possibleNodes = np.cumsum(possibleNodes) #transforme cette liste en une liste proba cumulee
             proba = random.random()
-
+            
             #prev_pos = self.pos #position Ti
             for j in range (len(possibleNodes)) :
-                #print "j" + str(j) + " "+str(possibleNodes[j]) + " "+ str(proba > possibleNodes[j])
-               
+                #print "j" + str(j) + " "+str(possibleNodes[j]) + " "+ str(proba > possibleNodes[j])               
                 # j < len(possibleNodes) pour de boucler sur une liste contenant que des 0             
                 if (proba < possibleNodes[j]) or (proba == possibleNodes[j]):
                     break
            
-            eps = self.epsilon(self.pos)  
-
+            eps = self.epsilon()  
+            print eps
             self.goTo(j)
              
             if eps <= e:
                 break
+     """       
+    def walk(self,nbPas, e):
+        if self.pos=="undefined":  # quand on appelle cette fonction juste apres la creation de l'objet
+            self.goTo(0)  # on met l'internaute sur le noeud 0 par defaut
             
-    def showFrequencies():
+            
+        possibleNodes=[]
+        for i in range(nbPas):  # on s'arrete lorsque l'on a fait nbPas deplacement
+            
+            possibleNodes = self.graph.matrice[self.pos] #une liste contenant les probas d'aller a un noeud i
+            
+            possibleNodes = np.cumsum(possibleNodes) #transforme cette liste en une liste proba cumulee
+            
+            proba = random.random()
+        
+            goal = 0
+            
+            for goal in range(len(possibleNodes)):
+                if(proba>possibleNodes[goal]):
+                    goal = goal + 1
+                else:
+                    break
+                """ 
+                goal < len(possibleNodes) pour eviter de boucler sur une liste contenant que des 0 (qui ne doit pas se passer normalement)
+                a la fin de cette boucle, goal est le noeud ou l'internaute doit aller
+                """
+           
+            self.goTo(goal) #faire deplacer l'internaute
+            
+            if self.epsilon() <= e: #on s'arrete lorsqu'on a une convergence
+                break
+            
+    def showFrequencies(self):
         somme =0.0
         for i in range (len(self.noeud)):
             somme = somme + self.noeud[i]
-        
+            
         liste =[]
         for j in range (len(self.noeud)):
-            liste[j]=self.noeud[j]/somme
+            liste.append(self.noeud[j]/somme)
         return liste
         

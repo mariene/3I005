@@ -151,4 +151,6 @@ class SimpleWeb():
                 for arc in node.liste_sort:
                     arc.prob = proba
                     self.matrice[arc.tail][arc.head] = proba
+            else:
+                self.matrice[node.id][node.id] = 1
         
