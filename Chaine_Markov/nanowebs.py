@@ -13,7 +13,7 @@ def creeNanoWeb1() :
     n.AddArc (0,1) ;n.AddArc(0,4) ;
     n.AddArc (1,2)
     n.AddArc (2,3) ;n.AddArc(2,4) ;
-    n.AddArc (3,9);n.AddArc(3,2) ;n.AddArc(3,4) ;
+    n.AddArc (3,9)
     n.AddArc (4,2) ;n.AddArc(4,5) ;n.AddArc(4,6) ;
     n.AddArc (5,6)
     n.AddArc (6,5) ;n.AddArc(6,7) ;
