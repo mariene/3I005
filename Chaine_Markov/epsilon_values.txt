@@ -1,0 +1,3 @@
+0 eme valeur d'epsilon est: 0.5
+100 eme valeur d'epsilon est: 0.000582411182295
+la derniere valeur est: 0.000199322304166
