@@ -233,9 +233,7 @@ class Internaute():
                 goal < len(possibleNodes) pour eviter de boucler sur une liste contenant que des 0 (qui ne doit pas se passer normalement)
                 a la fin de cette boucle, goal est le noeud ou l'internaute doit aller
                 """
-                
-               
-            
+           
             self.goTo(goal) #faire deplacer l'internaute
             
             if self.epsilon() <= e: #on s'arrete lorsqu'on a une convergence

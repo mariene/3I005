@@ -1,3 +1,8 @@
 0 eme valeur d'epsilon est: 0.5
+<<<<<<< HEAD
 100 eme valeur d'epsilon est: 0.000582411182295
 la derniere valeur est: 0.000199322304166
+=======
+100 eme valeur d'epsilon est: 0.00038827412153
+la derniere valeur est: 0.000199780241734
+>>>>>>> 28cd23950ca9c2459f4f9e677a391509b20fefef

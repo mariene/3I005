@@ -16,6 +16,10 @@ graph.AddArc(0,1)
 graph.AddArc(0,4)
 graph.AddArc(1,2)
 graph.AddArc(2,4)
+graph.AddArc(1,1)
+graph.AddArc(2,9)
+
+
 graph.AddArc(2,3)
 graph.AddArc(3,9)
 graph.AddArc(4,2)
@@ -25,6 +29,7 @@ graph.AddArc(6,5)
 graph.AddArc(6,7)
 graph.AddArc(7,8)
 graph.AddArc(8,7)
+
 graph.updateProbas()
 
 print graph
