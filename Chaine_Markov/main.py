@@ -6,7 +6,7 @@ Created on Sun Apr 03 23:16:36 2016
 """
 
 from nanowebs import creeNanoWeb1
-from internautes2 import Internaute
+from internautes import Internaute
 
  #creat ion du SimpleWeb
 nanoweb=creeNanoWeb1 ( )
@@ -28,4 +28,8 @@ bob.goTo(2)
 
 # bob a f f i ch e la frequence de sa presence
 # dans chaque noeud durant sa promenade
+<<<<<<< HEAD
 #print bob.showFrequencies()*bob.graph.matrice,"\n",bob.ti2
+=======
+print "PI t*p =",bob.showFrequencies()*bob.graph.matrice,"\n PIt+1",bob.ti2
+>>>>>>> refs/remotes/origin/master

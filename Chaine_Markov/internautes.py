@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Apr 03 23:13:46 2016
+Created on Wed Mar 23 16:14:34 2016
 
-@author: Mariène
+@author: 3202002
 """
 
-from datastructures import *
 import random
+from math import *
+import numpy as np
 
-class Internaute():   
+class Internaute():
+    
     def __init__(self, web):
         """
         constructeur d'internaute, qui associe l'internaute au graph passé par argument
@@ -16,53 +18,49 @@ class Internaute():
         """
         
         self.graph = web
-        self.pos = 0
-        self.ti=[]
-        self.ti2=[]
-        self.diff=[]
-        self.noeud=[]
-        self.liste_epsilon=[]
-        
-        for i in range(len(web.liste_node)):
+        self.pos = "undefined"
+        #self.cpt_node = []
+        self.ti = []
+        self.ti2 = []
+        self.diff = []
+        self.liste_epsilon = [] #une liste qui contient les valeurs d'epsilon (superflu?)
+        for i in range(len(web.liste_node)): # initialise deux listes de compteurs à zeros
             self.ti.append(0)
             self.ti2.append(0)
-            self.noeud.append(0)
-    
-    
+        
+        
     def __str__(self):
-        return "I'm the robo, I have ",self.nbPas," steps"
-    
-    
-    def goTo(self,node):
+        return "I'm the robo, I have at the node "+str(pos)
+     
+     
+    def goTo(self,nodeID):
         """
         permet au robot de se positionner dans le noeud passé en paramètre
         """
-        self.pos = node  
-       
+        self.pos = nodeID
+        #print nodeID
         self.ti = np.copy(self.ti2)
-        self.ti2[node] = self.ti2[node]+1 # on incremente le compteur du noeud de 1
-       # print self.pos
-        self.noeud[node]=self.noeud[node]+1
-      
+        self.ti2[nodeID] = self.ti2[nodeID]+1 # on incremente le compteur du noeud de 1
+        
+        #print "je suis a ",nodeID
     
-    def trace(self,nbIte,filename):
+    def trace(self,nbIte, filename):
         """
         internaute conserve les valeurs de epsilon
         toutes les 100 iterations
         dans ce fichier 
-        """              
-        """
-        for i in range (self.nbPas): 
-            a = self.epsilon()
-            if (i%nbIte == 0):
-                fichier.write("\n"+str(a))
-        """
-        fichier = open(filename,"w")
-        for i in range (len(self.diff)):
-            if (i%nbIte == 0):
-                fichier.write("\n"+str(self.diff[i]))
+        """        
         
-            
+        fichier = open(filename,"w")
+        
+        for i in range(len(self.liste_epsilon)):
+            if i%nbIte == 0: 
+                value = self.liste_epsilon[i]
+                fichier.write(str(i)+" eme valeur d'epsilon est: "+str(value)+"\n")
+        
+        fichier.write("la derniere valeur ("+str(i)+" eme) est: "+str(self.liste_epsilon[len(self.liste_epsilon)-1]))
+        
+        fichier.close()
         
     def epsilon(self):
         """
@@ -82,34 +80,13 @@ class Internaute():
         self.diff = []
         
         return self.liste_epsilon[len(self.liste_epsilon)-1]
-        
-    """
-    def walk(self,nbPas,e):
-        self.nbPas=nbPas
-        #possibleNodes=[]
-       # j=0
-        for i in range(nbPas-1):
-            
-            possibleNodes = (self.graph.matrice[self.pos]) #une liste contenant les probas d'aller a un noeud i
-            #print possibleNodes
-            possibleNodes = np.cumsum(possibleNodes) #transforme cette liste en une liste proba cumulee
-            proba = random.random()
-            
-            #prev_pos = self.pos #position Ti
-            for j in range (len(possibleNodes)) :
-                #print "j" + str(j) + " "+str(possibleNodes[j]) + " "+ str(proba > possibleNodes[j])               
-                # j < len(possibleNodes) pour de boucler sur une liste contenant que des 0             
-                if (proba < possibleNodes[j]) or (proba == possibleNodes[j]):
-                    break
-           
-            eps = self.epsilon()  
-            print eps
-            self.goTo(j)
-             
-            if eps <= e:
-                break
-     """       
+    
+     
     def walk(self,nbPas, e):
+        """
+        Fonction permettant de faire balader l'internaute.
+        Il s'arrete a nbPas pas, ou un epsilon plus petit que e
+        """
         if self.pos=="undefined":  # quand on appelle cette fonction juste apres la creation de l'objet
             self.goTo(0)  # on met l'internaute sur le noeud 0 par defaut
             
@@ -139,14 +116,22 @@ class Internaute():
             
             if self.epsilon() <= e: #on s'arrete lorsqu'on a une convergence
                 break
-            
+    
+    
     def showFrequencies(self):
-        somme =0.0
-        for i in range (len(self.noeud)):
-            somme = somme + self.noeud[i]
+        """
+        affiche la frequence
+        """
+       
+        somme = 0.0
+        
+        for i in range (len(self.ti2)):
+            somme += self.ti2[i]
             
         liste =[]
-        for j in range (len(self.noeud)):
-            liste.append(self.noeud[j]/somme)
-        return liste
+        
+        for j in range (len(self.ti2)):
+            liste.append(self.ti2[j]/somme)
+        
+        return np.mat(liste)
         

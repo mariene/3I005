@@ -154,3 +154,11 @@ class SimpleWeb():
             else:
                 self.matrice[node.id][node.id] = 1
         
+
+    def nextStep(self,pi_t):
+        """
+        calcule le pi_t+1 a partir de pi_t
+        """
+        return pi_t*(self.matrice)
+        
+    
