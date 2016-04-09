@@ -24,7 +24,32 @@ def creeNanoWeb1() :
     #n.updateTransitionMatrix()
     return n ;
 
-
+def creeNanoWeb2():
+    n=SimpleWeb(10)
+    n.AddArc(0,9)
+    n.AddArc(1,0);n.AddArc(1,5)
+    n.AddArc(2,1);n.AddArc(2,4)
+    n.AddArc(3,2);
+    n.AddArc(4,3)
+    n.AddArc(5,4)
+    n.AddArc(6,5)
+    n.AddArc(7,6);n.AddArc(7,3)
+    n.AddArc(8,7)
+    n.AddArc(9,2);n.AddArc(9.8)
+    n.updateProbas()
+    
+def creeNanoWeb3():
+    n=SimpleWeb(10)
+    n.AddArc(0,1)
+    n.AddArc(1,2);n.AddArc(1,3)
+    n.AddArc(2,3);n.AddArc(2,9)
+    n.AddArc(4,5)
+    n.AddArc(5,4)
+    n.AddArc(6,7)
+    n.AddArc(7,8)
+    n.AddArc(8,7)
+    n.updateProbas()
+    
 if __name__ == " __main__ " :
     graph=creeNanoWeb1()
     print(graph) # a f f i ch e la representat ion t ex t e

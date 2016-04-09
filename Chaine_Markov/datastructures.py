@@ -162,3 +162,15 @@ class SimpleWeb():
         return pi_t*(self.matrice)
         
     
+    def convergePuissance(self,epsilon):
+        """
+        les valeurs d'epsilon sont calculées ici avec la difference entre deux puissances
+        de matrice de transition.
+        """
+        eps = 1
+        puissM = self.matrice
+        while(eps > epsilon):
+            temp = np.copy(puissM)
+            puissM = self.matrice*puissM
+            eps = np.matrix.max(temp-puissM)
+            

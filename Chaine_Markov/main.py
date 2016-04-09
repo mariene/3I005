@@ -7,7 +7,7 @@ Created on Sun Apr 03 23:16:36 2016
 
 from nanowebs import creeNanoWeb1
 from internautes import Internaute
-
+from Simulation import Simulation
  #creat ion du SimpleWeb
 nanoweb=creeNanoWeb1 ( )
 
@@ -15,7 +15,7 @@ nanoweb=creeNanoWeb1 ( )
 bob=Internaute(nanoweb)
 
  # bob es t dans l e noeud 3
-bob.goTo(2)
+bob.goTo(4)
 
 # bob se ba l lade 10000 f o i s
 # ou jusque esp i lon <0.01
@@ -28,8 +28,8 @@ bob.goTo(2)
 
 # bob a f f i ch e la frequence de sa presence
 # dans chaque noeud durant sa promenade
-<<<<<<< HEAD
+
 #print bob.showFrequencies()*bob.graph.matrice,"\n",bob.ti2
-=======
-print "PI t*p =",bob.showFrequencies()*bob.graph.matrice,"\n PIt+1",bob.ti2
->>>>>>> refs/remotes/origin/master
+
+po=Simulation(nanoweb)
+po.simul(100,0.0005,bob.ti2)

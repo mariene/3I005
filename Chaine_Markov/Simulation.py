@@ -20,20 +20,32 @@ class Simulation():
         """
         self.graph = web
         self.listepsilon = []
-        self.res = 0
+        self.res = []
+        self.liste_epsilon = []
     def simul(self,nbIte,epsilon,pi0):
         """
         fonction qui, à chaque pas de temps, calcule πt
         à partir d’un π0, d’un nombre d’itérations limite,
         et toujours d’un seuil epsilon
         """        
+        self.res=pi0
+        
         for i in range(nbIte):
-            self.res = self.graph.nextStep(pi0)
+            temp = np.copy(self.res)
+            self.res = self.graph.nextStep(np.mat(self.res))
             """
             il nous reste :
             -> calculer epsilon (diff puissance matrice?)
             -> verifier condition epsilon
             -> courbe d'epsilon                        
             """
+            eps = abs(np.matrix.max(self.res-temp))
+            self.liste_epsilon.append(eps)
+            if(eps<epsilon):
+                break
+            
+
+
+            
 
         
