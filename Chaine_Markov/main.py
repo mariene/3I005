@@ -5,11 +5,11 @@ Created on Sun Apr 03 23:16:36 2016
 @author: Mariène
 """
 
-from nanowebs import creeNanoWeb1
+from nanowebs import *
 from internautes import Internaute
 from Simulation import Simulation
  #creat ion du SimpleWeb
-nanoweb=creeNanoWeb1 ( )
+nanoweb=creeNanoWeb3 ( )
 
 # Bob se ba l lade dans l e nanoweb
 bob=Internaute(nanoweb)
