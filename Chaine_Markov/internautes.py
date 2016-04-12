@@ -66,7 +66,7 @@ class Internaute():
     def getGraphEpsilon(self):
         plt.xlabel(u'iteration i')
         plt.ylabel(u'epsilon')
-        plt.title(u"Courbes indiquant la convergences au cours du temps pour les 3 nanoWebs")
+        plt.title(u"Courbes indiquant la convergences au cours du temps pour le nanoWebs")
         x=np.arange(len(self.liste_epsilon))
         plt.plot(x,self.liste_epsilon)
         plt.show()
