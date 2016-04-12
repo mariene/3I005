@@ -8,6 +8,7 @@ Created on Wed Mar 23 16:14:34 2016
 import random
 from math import *
 import numpy as np
+import matplotlib.pyplot as plt
 
 class Internaute():
     
@@ -61,6 +62,15 @@ class Internaute():
         fichier.write("la derniere valeur ("+str(i)+" eme) est: "+str(self.liste_epsilon[len(self.liste_epsilon)-1]))
         
         fichier.close()
+    
+    def getGraphEpsilon(self):
+        plt.xlabel(u'iteration i')
+        plt.ylabel(u'epsilon')
+        plt.title(u"Courbes indiquant la convergences au cours du temps pour les 3 nanoWebs")
+        x=np.arange(len(self.liste_epsilon))
+        plt.plot(x,self.liste_epsilon)
+        plt.show()
+
         
     def epsilon(self):
         """
