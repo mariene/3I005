@@ -174,3 +174,25 @@ class SimpleWeb():
             puissM = self.matrice*puissM
             eps = np.matrix.max(temp-puissM)
             
+    def generateurSimple(self):
+        #for i in range (self.taille):
+         #   self.liste_node.append(Node(i))
+        i=0
+        j=1
+        while((i+1)!=self.taille):
+            self.AddArc(i,j)
+            i=i+1
+            j=j+1
+       
+        k=self.taille-1
+        l=self.taille-2
+        while((l+1)!=0):
+            self.AddArc(k,l)
+            k=k-1
+            l=l-1
+        self.updateProbas()
+        return self
+
+
+        
+            
