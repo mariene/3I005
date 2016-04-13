@@ -52,12 +52,12 @@ def creeNanoWeb3():
     n.updateProbas()
     return n
     
-#if __name__ == " __main__ " :
-#    graph=creeNanoWeb1()
-#    print(graph) # a f f i ch e la representat ion t ex t e
-#    graph.getGraph("nano1.png")
-    
-#i = SimpleWeb(3)
-#i.generateurSimple()
-#print i
-#i.getGraph("g.png")
+if __name__ == " __main__ " :
+    graph=creeNanoWeb3()
+    print(graph) # a f f i ch e la representat ion t ex t e
+    graph.getGraph("nano3.png")
+        
+    i = SimpleWeb(5)
+    i.generateurSimple()
+    print i
+    i.getGraph("g.png")

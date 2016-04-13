@@ -214,6 +214,8 @@ class SimpleWeb():
         """
         #for i in range (self.taille):
          #   self.liste_node.append(Node(i))
+        if(self.taille<=2):
+            raise Exception("taille trop petite")
         i=0
         j=1
         while((i+1)!=self.taille):
