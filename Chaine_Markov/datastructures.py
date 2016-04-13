@@ -51,11 +51,15 @@ class SimpleWeb():
         
         """
         @param taille, la taille maximale du nombre de noeud dans le graphe
-        la liste_node est une liste vide par défaut.
+        @attribute liste_node est une liste contenant les noeuds viennent d'etre crees
+        @attribute matrice est la matrice de transition pour cette chaine de markov
+        @attribute liste_eps contient la liste des valeurs epsilon calculées pour la puissance de matrice
         """
         self.taille = taille
         self.liste_node = []
         self.matrice = np.zeros((taille,taille))
+        self.liste_eps = []
+        
         for i in range(taille):
             self.liste_node.append(Node(i))
         
@@ -111,6 +115,10 @@ class SimpleWeb():
        # self.matrice[tail][head]=1
      
     def getGraph(self,filename):
+        """
+        fonction permet de tracer le graphe de ce simpleWeb dans un fichier
+        @param filename est le nom du fichier que l'on va utiliser pour sauvegarader
+        """
         G = nx.DiGraph()
         G.add_nodes_from(self.liste_node) # ajout de noeuds dans graph
         
@@ -167,14 +175,43 @@ class SimpleWeb():
         les valeurs d'epsilon sont calculées ici avec la difference entre deux puissances
         de matrice de transition.
         """
+        
+        
+        def abs_mat(matrice):
+            """
+            fonction qui met toutes les valeurs d'une matrice en valeur absolue
+            """
+            for i in range(len(matrice)):
+                for j in range(len(matrice[0])):
+                    matrice[i][j] = abs(matrice[i][j])
+            return matrice
+            
         eps = 1
-        puissM = self.matrice
+
+        self.liste_eps.append(eps)
+        
+        puissM = np.copy(self.matrice)
+        
+        temp = np.copy(self.matrice)
+        
         while(eps > epsilon):
+
+            puissM = puissM * self.matrice
+            
+            diff = abs_mat(temp-puissM)
+            
+            eps = np.matrix.max(np.matrix(diff))
+            
+            self.liste_eps.append(eps)
+            
             temp = np.copy(puissM)
-            puissM = self.matrice*puissM
-            eps = np.matrix.max(temp-puissM)
+        
+        #print puissM
             
     def generateurSimple(self):
+        """
+        generateur d'un graphe ergodique
+        """
         #for i in range (self.taille):
          #   self.liste_node.append(Node(i))
         i=0
