@@ -57,7 +57,7 @@ def creeNanoWeb3():
 #    print(graph) # a f f i ch e la representat ion t ex t e
 #    graph.getGraph("nano1.png")
     
-i = SimpleWeb(3)
-i.generateurSimple()
-print i
-i.getGraph("g.png")
+#i = SimpleWeb(3)
+#i.generateurSimple()
+#print i
+#i.getGraph("g.png")
