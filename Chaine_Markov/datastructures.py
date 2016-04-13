@@ -8,6 +8,7 @@ Created on Sun Apr 03 22:23:00 2016
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+import random as random
 
 #Node,Arc,simple web
 class Node():
@@ -93,7 +94,7 @@ class SimpleWeb():
         liste_node_id = [node.id for node in self.liste_node]
         #si un noeud n'est pas dans le graph alors Exception   
         if(tail not in liste_node_id or head not in liste_node_id):
-            raise Exception("impossible d'ajouter l'arc "+str(tail)+" "+str(head))
+            raise Exception("impossible d'ajouter l'arc de "+str(tail)+" à "+str(head))
             
             
         arc1 = Arc(tail,head)
@@ -231,7 +232,44 @@ class SimpleWeb():
             l=l-1
         self.updateProbas()
         return self
+        
+    def generateurSemiComplexe(self):
+        """
+        generateur d'un graphe ergodique
+        """
 
+        if(self.taille<=2):
+            raise Exception("taille trop petite")
+        i=0
+        j=1
+        while((i+1)!=self.taille):
+            """
+            a la fin de cette boucle, tout noeud admet un arc sortant et un arc entrant,
+            sauf le dernier qui n'a pas d'arc sortant, et le premier pas d'arc entrant.
+            """
+            self.AddArc(i,j)
+            i=i+1
+            j=j+1
+       
+       
+        k=self.taille-1
+
+        liste = []
+        
+        for i in range(len(self.liste_node)):
+            liste.append(self.liste_node[i].id)
+        #print liste
+        
+        
+        while (len(liste) <> 0):
+             nb = random.randint(0, len(liste)-1)            
+             self.AddArc(k,liste[nb])
+             liste.remove(liste[nb])
+#             np.delete(liste,liste[nb])
+             k=k-1 
+        self.updateProbas()
+        return self
+        
 
         
             

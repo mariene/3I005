@@ -57,7 +57,8 @@ if __name__ == " __main__ " :
     print(graph) # a f f i ch e la representat ion t ex t e
     graph.getGraph("nano3.png")
         
-    i = SimpleWeb(5)
-    i.generateurSimple()
-    print i
-    i.getGraph("g.png")
+i = SimpleWeb(5)
+#i.generateurSimple()
+i.generateurSemiComplexe()
+print i
+i.getGraph("g.png")
