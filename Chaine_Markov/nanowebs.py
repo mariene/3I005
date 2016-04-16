@@ -14,7 +14,7 @@ def creeNanoWeb1() :
     n.AddArc (1,2)
     n.AddArc (2,3) ;n.AddArc(2,4) ;
     n.AddArc (3,9)
-    n.AddArc (4,2) ;n.AddArc(4,5) ;n.AddArc(4,6) ;
+    n.AddArc (4,2) ;n.AddArc(4,5) ;n.AddArc(4,7) ;
     n.AddArc (5,6)
     n.AddArc (6,5) ;n.AddArc(6,7) ;
     n.AddArc (7,8)
@@ -57,8 +57,8 @@ if __name__ == " __main__ " :
     print(graph) # a f f i ch e la representat ion t ex t e
     graph.getGraph("nano3.png")
         
-i = SimpleWeb(5)
+#i = SimpleWeb(5)
 #i.generateurSimple()
-i.generateurSemiComplexe()
-print i
-i.getGraph("g.png")
+#i.generateurSemiComplexe()
+#print i
+#i.getGraph("g.png")

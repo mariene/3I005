@@ -186,26 +186,26 @@ class SimpleWeb():
                 for j in range(len(matrice[0])):
                     matrice[i][j] = abs(matrice[i][j])
             return matrice
-            
-        eps = 1
 
-        self.liste_eps.append(eps)
-        
-        puissM = np.copy(self.matrice)
-        
-        temp = np.copy(self.matrice)
+        exposant = 2
+
+        eps = 88
         
         while(eps > epsilon):
 
-            puissM = puissM * self.matrice
+           puissM = self.matrice ** exposant
             
-            diff = abs_mat(temp-puissM)
+#            diff = abs_mat(temp-puissM)
             
-            eps = np.matrix.max(np.matrix(diff))
+#            eps = np.matrix.max(np.matrix(diff))
             
-            self.liste_eps.append(eps)
-            
-            temp = np.copy(puissM)
+#           eps = np.max(abs_mat(puissM - self.matrice ** (exposant-1)))
+ 
+           eps = abs_mat(puissM - self.matrice ** (exposant-1)).sum()
+ 
+           self.liste_eps.append(eps)
+           
+           exposant += 1
         
         #print puissM
             

@@ -11,11 +11,10 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from nanowebs import *
 
-
-graph = creeNanoWeb3()
-
-print graph.matrice
-
+graph1 = creeNanoWeb1()
+graph2 = creeNanoWeb2()
+graph3 = creeNanoWeb3()
+#print graph.matrice
 
 #bob = Internaute(graph)
 """
@@ -28,9 +27,14 @@ print bob.ti, bob.ti2
 """
 #bob.walk(3000,0.0002)
 
-graph.convergePuissance(0.001)
+graph3.convergePuissance(0.001)
+graph2.convergePuissance(0.001)
+graph1.convergePuissance(0.001)
 
-print graph.liste_eps
+print graph1.liste_eps
+print graph3.liste_eps
+print graph2.liste_eps
+
 
 ##############################################graphe########################################
 
