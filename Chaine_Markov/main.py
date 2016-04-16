@@ -11,7 +11,7 @@ from Simulation import Simulation
 import matplotlib.pyplot as plt
 import numpy as np
 
- #creat ion du SimpleWeb
+ #creation du SimpleWeb
 nanoweb3=creeNanoWeb3( )
 nanoweb2=creeNanoWeb2( )
 nanoweb1=creeNanoWeb1( )
@@ -22,15 +22,15 @@ alice = Internaute(nanoweb2)
 camille = Internaute(nanoweb3)
 
  # bob es t dans l e noeud 3
-bob.goTo(4)
-alice.goTo(4)
-camille.goTo(4)
+bob.goTo(0)
+alice.goTo(0)
+camille.goTo(0)
 
 # bob se ba l lade 10000 f o i s
 # ou jusque esp i lon <0.01
-bob.walk(1000,0.001)
-alice.walk(1000,0.001)
-camille.walk(1000,0.001)
+bob.walk(1000,0.1)
+alice.walk(1000,0.1)
+camille.walk(1000,0.1)
 
 #plt.xlabel(u'iteration i')
 #plt.ylabel(u'epsilon')
@@ -42,22 +42,23 @@ camille.walk(1000,0.001)
 #p2=plt.plot(x2,bob.liste_epsilon,label=ur"$NanoWeb1$")
 #p3=plt.plot(x3,camille.liste_epsilon,label=ur"$NanoWeb3$")
 #plt.legend()
+#plt.savefig("graphe.png")
 #
 #plt.show()
 
 # bob conserve les valeurs de epsilon
 # toutes l e s 100 i t e r a t i on s
 # dans ce f i c h i e r
-bob.trace (100,"epsilons1.txt")
-alice.trace (100,"epsilons2.txt")
-camille.trace (100,"epsilons3.txt")
+#bob.trace (100,"epsilons1.txt")
+#alice.trace (100,"epsilons2.txt")
+#camille.trace (100,"epsilons3.txt")
 
-bob.getGraphEpsilon()
+#bob.getGraphEpsilon()
 
 # bob a f f i ch e la frequence de sa presence
 # dans chaque noeud durant sa promenade
 
 #print bob.showFrequencies()*bob.graph.matrice,"\n",bob.ti2
 
-po=Simulation(nanoweb1)
-po.simul(100,0.0005,bob.ti2)
+#po=Simulation(nanoweb1)
+#po.simul(100,0.0005,bob.ti2)

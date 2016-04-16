@@ -31,18 +31,19 @@ class Simulation():
         self.res= np.copy(pi0)
         temp = np.copy(pi0)
         
+        def abs_mat(matrice):
+            """
+            fonction qui met toutes les valeurs d'une matrice en valeur absolue
+            """
+            for i in range(len(matrice)):
+                for j in range(len(matrice[0])):
+                    matrice[i][j] = abs(matrice[i][j])
+            return matrice
+            
         for i in range(nbIte):
+            temp = np.copy(self.res)
             
-            def abs_mat(matrice):
-                """
-                fonction qui met toutes les valeurs d'une matrice en valeur absolue
-                """
-                for i in range(len(matrice)):
-                    for j in range(len(matrice[0])):
-                        matrice[i][j] = abs(matrice[i][j])
-                return matrice
-            
-            self.res = self.graph.nextStep(np.mat(self.res))
+            self.res = self.graph.nextStep(np.matrix(self.res))
             """
             il nous reste :
             -> calculer epsilon (diff puissance matrice?)
@@ -52,29 +53,29 @@ class Simulation():
             diff = abs_mat(temp-self.res)
             eps = np.matrix.max(np.matrix(diff))
             
-            temp = np.copy(self.res)
             self.liste_epsilon.append(eps)
             if(eps<epsilon):
                 break
        
-
+#
 graph3 = creeNanoWeb3()
 sim3 = Simulation(graph3)
-pi03 = [1,0,0,0,0,0,0,0,0,0]
-sim3.simul(1000,0.0001,pi03)
-print sim3.liste_epsilon
+pi03 = [1/3.,0,0,0,1/3.,0,1/3.,0,0,0]
+sim3.simul(1000,0.001,pi03)
+#print sim3.liste_epsilon
 
 graph2 = creeNanoWeb2()
 sim2 = Simulation(graph2)
-pi02 = [1,0,0,0,0,0,0,0,0,0]
-sim2.simul(1000,0.0001,pi02)
-print sim2.liste_epsilon
+#pi02 = [1,0,0,0,0,0,0,0,0,0]
+pi02 = [1/10.,1/10.,1/10.,1/10.,1/10.,1/10.,1/10.,1/10.,1/10.,1/10.]
+sim2.simul(1000,0.001,pi02)
+#print sim2.liste_epsilon
 
 graph = creeNanoWeb1()
 sim = Simulation(graph)
-pi0 = [1,0,0,0,0,0,0,0,0,0]
-sim.simul(1000,0.0001,pi0)
-print sim.liste_epsilon
+pi0 = [1/3.,0,0,0,0,0,0,0,1/3.,1/3.]
+sim.simul(1000,0.001,pi0)
+#print sim.liste_epsilon
 
 plt.xlabel(u'iteration i')
 plt.ylabel(u'epsilon')

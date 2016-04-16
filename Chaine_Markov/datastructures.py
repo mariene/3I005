@@ -189,7 +189,7 @@ class SimpleWeb():
 
         exposant = 2
 
-        eps = 88
+        eps = 1
         
         while(eps > epsilon):
 
@@ -201,7 +201,7 @@ class SimpleWeb():
             
 #           eps = np.max(abs_mat(puissM - self.matrice ** (exposant-1)))
  
-           eps = abs_mat(puissM - self.matrice ** (exposant-1)).sum()
+           eps = np.matrix.max(np.matrix((self.matrice ** (exposant-1) - puissM)))
  
            self.liste_eps.append(eps)
            

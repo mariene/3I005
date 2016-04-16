@@ -1,9 +1,9 @@
 0 eme valeur d'epsilon est: 0.5
-100 eme valeur d'epsilon est: 0.00893030479519
+100 eme valeur d'epsilon est: 0.00931857891672
 200 eme valeur d'epsilon est: 0.0043840204916
-300 eme valeur d'epsilon est: 0.00253019735539
-400 eme valeur d'epsilon est: 0.00243173161623
-500 eme valeur d'epsilon est: 0.00174551295815
-600 eme valeur d'epsilon est: 0.00145936175035
-700 eme valeur d'epsilon est: 0.00114203965844
-la derniere valeur (768 eme) est: 0.000996402816949
+300 eme valeur d'epsilon est: 0.0025962025038
+400 eme valeur d'epsilon est: 0.00236349424945
+500 eme valeur d'epsilon est: 0.0016103251664
+600 eme valeur d'epsilon est: 0.00127141364614
+700 eme valeur d'epsilon est: 0.00108717298446
+la derniere valeur (762 eme) est: 0.00099840118573

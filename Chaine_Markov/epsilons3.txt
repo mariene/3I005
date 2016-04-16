@@ -1,6 +1,2 @@
-0 eme valeur d'epsilon est: 0.5
-100 eme valeur d'epsilon est: 0.0049504950495
-200 eme valeur d'epsilon est: 0.00248756218905
-300 eme valeur d'epsilon est: 0.00166112956811
-400 eme valeur d'epsilon est: 0.00124688279302
-la derniere valeur (499 eme) est: 0.000998003992016
+0 eme valeur d'epsilon est: 0.0
+la derniere valeur (0 eme) est: 0.0
