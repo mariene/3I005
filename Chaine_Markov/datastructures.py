@@ -250,7 +250,7 @@ class SimpleWeb():
         self.updateProbas()
         return self
         
-    def generateurSemiComplexe(self):
+   def generateurSemiComplexe(self):
         """
         generateur d'un graphe ergodique
         """
@@ -275,15 +275,18 @@ class SimpleWeb():
         
         for i in range(len(self.liste_node)):
             liste.append(self.liste_node[i].id)
-        #print liste
+        print liste
         
         
         while (len(liste) <> 0):
-             nb = random.randint(0, len(liste)-1)            
-             self.AddArc(k,liste[nb])
-             liste.remove(liste[nb])
-#             np.delete(liste,liste[nb])
-             k=k-1 
+             nb = random.randint(0, len(liste)-1)
+             try :
+                 self.AddArc(k,liste[nb])
+                 liste.remove(liste[nb])
+                 k=k-1 
+             except ArcIdentiqueError:
+                 k = k+1
+             
         self.updateProbas()
         return self
         
@@ -328,6 +331,6 @@ class SimpleWeb():
                     i -= 1
                     
             self.updateProbas()
-                
+        return self        
                 
         
