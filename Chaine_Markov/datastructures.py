@@ -250,7 +250,7 @@ class SimpleWeb():
         self.updateProbas()
         return self
         
-   def generateurSemiComplexe(self):
+    def generateurSemiComplexe(self):
         """
         generateur d'un graphe ergodique
         """
