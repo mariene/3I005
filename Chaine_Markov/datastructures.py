@@ -45,7 +45,26 @@ class Arc():
     def equals(self,arc):
         return arc.head == self.head and arc.tail == self.tail
 
-       
+  
+
+class ArcIdentiqueError(Exception):
+        """
+        On definit un nouveau type d'erreur, cette erreur est levee lorsque l'on veut ajouter
+        un arc deja present dans le graph
+        """
+        def __init__(self):
+            super(ArcIdentiqueError,self).__init__("impossible d'ajouter deux arcs identiques")
+        
+
+class AjoutImpossibleError(Exception):
+        """
+        Cette erreur est levee si on veut ajouter un arc ayant un "tail" ou/et "heaud
+        absent dans le graphe
+        """
+        def __init__(self):
+            super(AjoutImpossibleError,self).__init__("Tail ou/et head absent dans le graphe,impossible d'ajouter cet arc")
+            
+            
 class SimpleWeb():
     
     def __init__(self,taille):
@@ -63,6 +82,8 @@ class SimpleWeb():
         
         for i in range(taille):
             self.liste_node.append(Node(i))
+   
+    
         
     def __str__(self):
         
@@ -94,24 +115,22 @@ class SimpleWeb():
         liste_node_id = [node.id for node in self.liste_node]
         #si un noeud n'est pas dans le graph alors Exception   
         if(tail not in liste_node_id or head not in liste_node_id):
-            raise Exception("impossible d'ajouter l'arc de "+str(tail)+" à "+str(head))
-            
-            
+            #raise Exception("impossible d'ajouter l'arc de "+str(tail)+" à "+str(head))
+            raise AjoutImpossibleError()
+         
         arc1 = Arc(tail,head)
 
          #verifier l'unicité de l'arc
         for node in self.liste_node:
             for arc2 in node.liste_sort:
                 if arc2.equals(arc1):
-                    raise Exception("impossible d'ajouter deux arcs identiques")
-
-
-        for node in self.liste_node:
-            if node.id == tail:
-                node.liste_sort.append(arc1)
-            if node.id ==head:
-                node.liste_ent.append(arc1)
-        #updateProbas() 
+                    #raise ArcIdentiqueError("impossible d'ajouter deux arcs identiques")
+                    raise ArcIdentiqueError()
+   
+        self.liste_node[tail].liste_sort.append(arc1)
+        self.liste_node[head].liste_ent.append(arc1)
+        
+        #self.updateProbas() 
         
        # self.matrice[tail][head]=1
      
@@ -149,8 +168,13 @@ class SimpleWeb():
     def updateProbas(self):
         
         """
-        mettre à jour les probabilités suivant la matrice 
+        met à jour les probabilités suivant la matrice 
         faite par PageRank
+        Cette fonction doit etre appelee apres avoir cree tout arc du graphe afin d'eviter 
+        tout probleme.
+        Exemple -> Si on l'appelle juste apres la creation du graphe, la diagonale haut-gauche\bas-droite 
+        de la matrice vont etre initialisee a 1, ce n'est peut etre pas ce que l'on veut
+            
         """        
         
         for node in self.liste_node:
@@ -161,7 +185,15 @@ class SimpleWeb():
                     arc.prob = proba
                     self.matrice[arc.tail][arc.head] = proba
             else:
-                self.matrice[node.id][node.id] = 1
+                """
+                si ce noeud n'admet aucun arc sortant alors,
+                on cree un nouvel arc qui pointe sur lui-meme avec une proba de 1
+                """
+                
+                arc = Arc(node.id,node.id)
+                node.liste_sort.append(arc)
+                node.liste_ent.append(arc)
+                self.matrice[node.id][node.id] = 1 
         
 
     def nextStep(self,pi_t):
@@ -176,17 +208,6 @@ class SimpleWeb():
         les valeurs d'epsilon sont calculées ici avec la difference entre deux puissances
         de matrice de transition.
         """
-        
-        
-        def abs_mat(matrice):
-            """
-            fonction qui met toutes les valeurs d'une matrice en valeur absolue
-            """
-            for i in range(len(matrice)):
-                for j in range(len(matrice[0])):
-                    matrice[i][j] = abs(matrice[i][j])
-            return matrice
-
         exposant = 2
 
         eps = 1
@@ -195,13 +216,9 @@ class SimpleWeb():
 
            puissM = self.matrice ** exposant
             
-#            diff = abs_mat(temp-puissM)
-            
-#            eps = np.matrix.max(np.matrix(diff))
-            
-#           eps = np.max(abs_mat(puissM - self.matrice ** (exposant-1)))
- 
-           eps = np.matrix.max(np.matrix((self.matrice ** (exposant-1) - puissM)))
+           diff = self.matrice ** (exposant-1) - puissM
+          
+           eps = diff.argmax() * diff.max()
  
            self.liste_eps.append(eps)
            
@@ -216,7 +233,7 @@ class SimpleWeb():
         #for i in range (self.taille):
          #   self.liste_node.append(Node(i))
         if(self.taille<=2):
-            raise Exception("taille trop petite")
+            raise ValueError("taille trop petite")
         i=0
         j=1
         while((i+1)!=self.taille):
@@ -239,7 +256,7 @@ class SimpleWeb():
         """
 
         if(self.taille<=2):
-            raise Exception("taille trop petite")
+            raise ValueError("taille trop petite")
         i=0
         j=1
         while((i+1)!=self.taille):
@@ -270,6 +287,47 @@ class SimpleWeb():
         self.updateProbas()
         return self
         
-
+    def generateurErgo(self):
+        """
+        generateur d'un graphe ergodique en créant un graphe periodique et 
+        le rendre non periodique en lui ajoutant des arcs supplementaires
+        """
         
+        if(self.taille <= 2):
+            raise ValueError("taille trop petite")
             
+        else:
+            for i in range(len(self.liste_node)):
+                if(i==len(self.liste_node)-1):
+                    self.AddArc(i,0)
+                else:
+                    self.AddArc(i,i+1)
+            """
+            a la fin de cette boucle for, on a un graphe periodique qui forme un cycle
+            """
+            
+            self.AddArc(0,0) 
+            """
+            en ajoutant cet arc, le graphe devient non périodique
+            et comme le graphe
+            """
+            
+            
+            nbArc = random.randint(0,len(self.liste_node)/3)
+            
+            i = 0
+            
+            while i < nbArc:
+                try :
+                    tail = random.randint(0,self.taille-1) # borne sup incluse donc -1
+                    head = random.randint(0,self.taille-1)                    
+                    i += 1
+                    self.AddArc(tail,head)
+                    
+                except ArcIdentiqueError:
+                    i -= 1
+                    
+            self.updateProbas()
+                
+                
+        
