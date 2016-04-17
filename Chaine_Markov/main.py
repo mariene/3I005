@@ -22,9 +22,9 @@ alice = Internaute(nanoweb2)
 camille = Internaute(nanoweb3)
 
  # bob es t dans l e noeud 3
-bob.goTo(0)
-alice.goTo(0)
-camille.goTo(0)
+bob.goTo(3)
+alice.goTo(3)
+camille.goTo(3)
 
 # bob se ba l lade 10000 f o i s
 # ou jusque esp i lon <0.01
@@ -32,19 +32,19 @@ bob.walk(1000,0.1)
 alice.walk(1000,0.1)
 camille.walk(1000,0.1)
 
-#plt.xlabel(u'iteration i')
-#plt.ylabel(u'epsilon')
-#plt.title(u"Courbes indiquant la convergences au cours du temps pour les 3 nanoWebs")
-#x1=np.arange(len(alice.liste_epsilon))
-#x2=np.arange(len(bob.liste_epsilon))
-#x3=np.arange(len(camille.liste_epsilon))
-#p1=plt.plot(x1,alice.liste_epsilon,label=ur"$NanoWeb2$")
-#p2=plt.plot(x2,bob.liste_epsilon,label=ur"$NanoWeb1$")
-#p3=plt.plot(x3,camille.liste_epsilon,label=ur"$NanoWeb3$")
-#plt.legend()
+plt.xlabel(u'iteration i')
+plt.ylabel(u'epsilon')
+plt.title(u"Courbes indiquant la convergences au cours du temps pour les 3 nanoWebs")
+x1=np.arange(len(alice.liste_epsilon))
+x2=np.arange(len(bob.liste_epsilon))
+x3=np.arange(len(camille.liste_epsilon))
+p1=plt.plot(x1,alice.liste_epsilon,label=ur"$NanoWeb2$")
+p2=plt.plot(x2,bob.liste_epsilon,label=ur"$NanoWeb1$")
+p3=plt.plot(x3,camille.liste_epsilon,label=ur"$NanoWeb3$")
+plt.legend()
 #plt.savefig("graphe.png")
-#
-#plt.show()
+
+plt.show()
 
 # bob conserve les valeurs de epsilon
 # toutes l e s 100 i t e r a t i on s
