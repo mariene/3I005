@@ -23,17 +23,12 @@ nanoweb1=creeNanoWeb1( )
 #alice = Internaute(nanoweb2)
 #camille = Internaute(nanoweb3)
 
-<<<<<<< HEAD
- # bob es t dans l e noeud 3
-bob.goTo(3)
-alice.goTo(3)
-camille.goTo(3)
-=======
+
  # bob est dans le noeud 3
 #bob.goTo(0)
 #alice.goTo(0)
 #camille.goTo(0)
->>>>>>> 5fb7778c04382572cffff302c28f90f86aa8e2a9
+
 
 # bob se ballade 10000 fois
 # ou jusque esp i lon <0.01
@@ -43,21 +38,7 @@ camille.goTo(3)
 """---------------------internautes se ballade dans le nanoweb----------------------"""
 
 
-<<<<<<< HEAD
-plt.xlabel(u'iteration i')
-plt.ylabel(u'epsilon')
-plt.title(u"Courbes indiquant la convergences au cours du temps pour les 3 nanoWebs")
-x1=np.arange(len(alice.liste_epsilon))
-x2=np.arange(len(bob.liste_epsilon))
-x3=np.arange(len(camille.liste_epsilon))
-p1=plt.plot(x1,alice.liste_epsilon,label=ur"$NanoWeb2$")
-p2=plt.plot(x2,bob.liste_epsilon,label=ur"$NanoWeb1$")
-p3=plt.plot(x3,camille.liste_epsilon,label=ur"$NanoWeb3$")
-plt.legend()
-#plt.savefig("graphe.png")
 
-plt.show()
-=======
 
 """"-------------------------courbes---------------------------------------"""
 #plt.xlabel(u'iteration i')
@@ -74,7 +55,7 @@ plt.show()
 #
 #plt.show()
 """"-------------------------courbes---------------------------------------"""
->>>>>>> 5fb7778c04382572cffff302c28f90f86aa8e2a9
+
 
 """---------------------------stocker valeurs d'epsilon dans un fichier-----------------------"""
 # bob conserve les valeurs de epsilon

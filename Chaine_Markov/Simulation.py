@@ -77,23 +77,7 @@ pi0 = [1/3.,0,0,0,0,0,0,0,1/3.,1/3.]
 sim.simul(1000,0.001,pi0)
 #print sim.liste_epsilon
 
-<<<<<<< HEAD
-#plt.xlabel(u'iteration i')
-#plt.ylabel(u'epsilon')
-#plt.title(u"Courbes courbes d’epsilon pour les 3 nanoWebs")
-#x3=np.arange(len(sim3.liste_epsilon))
-#x2=np.arange(len(sim2.liste_epsilon))
-#x1=np.arange(len(sim.liste_epsilon))
-#p1=plt.plot(x1,sim.liste_epsilon,label=ur"$NanoWeb2$")
-#p2=plt.plot(x2,sim2.liste_epsilon,label=ur"$NanoWeb1$")
-#p3=plt.plot(x3,sim3.liste_epsilon,label=ur"$NanoWeb3$")
-#plt.legend()
-#
-#plt.show()
-            
-=======
 
->>>>>>> 5fb7778c04382572cffff302c28f90f86aa8e2a9
 
 """---------------------------------afficher courbes-------------------------"""
 #plt.xlabel(u'iteration i')
